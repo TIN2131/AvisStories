@@ -3,191 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegant RSVP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>CommuniTax</title>
     <style>
-        body, html {
-            font-family: 'Montserrat', sans-serif;
-            color: #635547;
+        body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            height: 100%;
-            background-color: #f5f5f5;
+            color: #333;
         }
 
-        .background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://github.com/TIN2131/WeddingRSVP/blob/main/Inv_Background_Canva_v2.png?raw=true');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .content-wrapper {
-            width: 80%;
-            max-width: 400px;
-            aspect-ratio: 16 / 9;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .container {
-            width: 100%;
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.8em;
-            text-align: center;
-            margin: 0 0 10px;
-            color: #A26E23;
-        }
-
-        .deadline {
-            text-align: center;
-            font-size: 0.7em;
-            margin-bottom: 10px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .input-group {
-            margin-bottom: 10px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 2px;
-            font-size: 0.8em;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #A26E23;
-            border-radius: 4px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8em;
-            color: #635547;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
-        input[type="radio"] {
-            margin-right: 5px;
-        }
-
-        .radio-label {
-            font-size: 0.8em;
-        }
-
-        button {
-            background-color: #A26E23;
+        header {
+            background-color: #0044cc;
             color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        button:hover {
-            background-color: #8a5d1f;
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        .success-message {
-            display: none;
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .contact-button {
+            background-color: #ffa500;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .banner {
+            background: url('banner.jpg') no-repeat center center;
+            background-size: cover;
+            color: white;
             text-align: center;
-            color: #4a8a47;
-            margin-top: 10px;
-            font-size: 0.8em;
+            padding: 100px 20px;
         }
 
-        @media (max-width: 480px) {
-            .content-wrapper {
-                width: 90%;
-            }
-            h1 {
-                font-size: 1.5em;
-            }
-            .deadline, label, input[type="text"], select, .radio-label, button {
-                font-size: 0.7em;
-            }
+        .banner h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .banner p {
+            font-size: 24px;
+        }
+
+        .cta-button {
+            background-color: #ffa500;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        #services {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .service-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .service-item {
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 10px;
+            width: calc(33.333% - 40px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        #testimonials {
+            background-color: #e0e0e0;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .testimonial-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        blockquote {
+            font-style: italic;
+            margin: 20px 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .contact-info, .social-media, .newsletter {
+            width: 30%;
+        }
+
+        .social-media ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .social-media ul li {
+            margin: 5px 0;
+        }
+
+        .social-media ul li a {
+            color: white;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="background-container">
-        <div class="content-wrapper">
-            <div class="container">
-                <h1>RSVP</h1>
-                <p class="deadline">Kindly reply by October 2, 2025</p>
-                <form id="rsvpForm">
-                    <div class="input-group">
-                        <label for="name">Name / Nombre</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="accept" name="response" value="accept" required>
-                            <label for="accept" class="radio-label">Yes, I'll be there! / ¡Sí, asistiré!</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="decline" name="response" value="decline" required>
-                            <label for="decline" class="radio-label">Sorry, I can't make it. / Lo siento, no podré asistir.</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="guests">Number of guests / Número de invitados</label>
-                        <select id="guests" name="guests" required>
-                            <option value="">Select / Seleccionar</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <button type="submit">Submit RSVP / Enviar RSVP</button>
+    <header>
+        <div class="logo">CommuniTax</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#client-portal">Client Portal</a></li>
+            </ul>
+        </nav>
+        <a href="#contact" class="contact-button">Contact Us</a>
+    </header>
+
+    <main>
+        <section id="home" class="banner">
+            <h1>Committed to Supporting American Innovation and Excellence</h1>
+            <p>Through our expertise in tax credits and incentives, we help businesses thrive.</p>
+            <a href="#services" class="cta-button">Learn More</a>
+        </section>
+
+        <section id="services">
+            <h2>Our Services</h2>
+            <div class="service-list">
+                <div class="service-item">
+                    <h3>State & Local Tax (multi-state)</h3>
+                    <p>Comprehensive tax solutions for multiple states.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Research and Development Tax Credits</h3>
+                    <p>Maximize your R&D tax credits.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Work Opportunity Tax Credit</h3>
+                    <p>Take advantage of WOTC incentives.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Cost Segregation Studies</h3>
+                    <p>Optimize your property investments.</p>
+                </div>
+                <div class="service-item">
+                    <h3>CA Competes</h3>
+                    <p>Navigate California tax credits.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Sales & Use Tax</h3>
+                    <p>Efficiently manage sales and use tax.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <h2>Client Testimonials</h2>
+            <div class="testimonial-list">
+                <blockquote>"CommuniTax helped us save thousands on our tax bill. Highly recommend!"</blockquote>
+                <blockquote>"Excellent service and knowledgeable team. They made the process easy."</blockquote>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <p>Phone: 1.800.123.4567</p>
+                <p>Email: info@communitax.com</p>
+                <p>Address: 123 Main Street, Anytown, USA</p>
+            </div>
+            <div class="social-media">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                </ul>
+            </div>
+            <div class="newsletter">
+                <h3>Newsletter Signup</h3>
+                <form>
+                    <input type="email" placeholder="Your email address">
+                    <button type="submit">Subscribe</button>
                 </form>
-                <div class="success-message">Thank you for your response! / ¡Gracias por su respuesta!</div>
             </div>
         </div>
-    </div>
-
-    <script>
-        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            console.log(Object.fromEntries(formData));
-            this.style.display = 'none';
-            document.querySelector('.success-message').style.display = 'block';
-        });
-    </script>
+    </footer>
 </body>
 </html>
