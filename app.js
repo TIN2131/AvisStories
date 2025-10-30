@@ -9,16 +9,23 @@ const musicPlayer = document.getElementById('musicPlayer');
 const storyReveal = document.getElementById('storyReveal');
 const storyContainer = document.getElementById('storyContainer');
 const progressSection = document.getElementById('progressSection');
+const favoritesSection = document.getElementById('favoritesSection');
+const browseSection = document.getElementById('browseSection');
 const backgroundMusic = document.getElementById('backgroundMusic');
+const musicControls = document.getElementById('musicControls');
+const pausePlayButton = document.getElementById('pausePlayButton');
 const volumeControl = document.getElementById('volumeControl');
 const volumeSlider = document.getElementById('volumeSlider');
 const volumeValue = document.getElementById('volumeValue');
 const backButton = document.getElementById('backButton');
 const favoriteButton = document.getElementById('favoriteButton');
+const pickDifferentButton = document.getElementById('pickDifferentButton');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     renderProgressSection();
+    renderFavoritesSection();
+    renderBrowseSection();
     setupEventListeners();
     
     // Set initial volume
@@ -29,6 +36,8 @@ function setupEventListeners() {
     playButton.addEventListener('click', startExperience);
     backButton.addEventListener('click', showStoryReveal);
     favoriteButton.addEventListener('click', toggleFavorite);
+    pickDifferentButton.addEventListener('click', pickDifferentStory);
+    pausePlayButton.addEventListener('click', togglePausePlay);
     
     volumeSlider.addEventListener('input', (e) => {
         const volume = e.target.value / 100;
@@ -43,9 +52,9 @@ function startExperience() {
         console.log('Music autoplay prevented:', err);
     });
     
-    // Hide play button, show volume control
+    // Hide play button, show music controls
     playButton.style.display = 'none';
-    volumeControl.style.display = 'block';
+    musicControls.style.display = 'flex';
     
     // Show story reveal after a brief moment
     setTimeout(() => {
@@ -62,6 +71,21 @@ function selectRandomStory() {
     // Select random story
     const randomIndex = Math.floor(Math.random() * availableStories.length);
     currentStory = availableStories[randomIndex];
+}
+
+function togglePausePlay() {
+    if (backgroundMusic.paused) {
+        backgroundMusic.play();
+        pausePlayButton.innerHTML = '<span class="pause-icon">⏸</span>';
+    } else {
+        backgroundMusic.pause();
+        pausePlayButton.innerHTML = '<span class="play-icon-small">▶</span>';
+    }
+}
+
+function pickDifferentStory() {
+    selectRandomStory();
+    showStoryReveal();
 }
 
 function showStoryReveal() {
@@ -125,6 +149,8 @@ function toggleFavorite() {
     
     localStorage.setItem('aviFavorites', JSON.stringify(favorites));
     updateFavoriteButton();
+    renderFavoritesSection();
+    renderBrowseStories(); // Update browse section to show new favorite status
 }
 
 function updateFavoriteButton() {
@@ -174,6 +200,112 @@ function renderProgressSection() {
     if (completedStories.length > 0) {
         progressSection.style.display = 'block';
     }
+}
+
+function renderFavoritesSection() {
+    const favoritesGrid = document.getElementById('favoritesGrid');
+    favoritesGrid.innerHTML = '';
+    
+    if (favorites.length === 0) {
+        favoritesSection.style.display = 'none';
+        return;
+    }
+    
+    // Get favorite stories
+    const favoriteStories = stories.filter(s => favorites.includes(s.id));
+    
+    favoriteStories.forEach(story => {
+        const card = document.createElement('div');
+        card.className = 'favorite-card';
+        card.innerHTML = `
+            <div class="icon">${story.icon}</div>
+            <div class="title">${story.title}</div>
+            <div class="pillar">${story.pillar}</div>
+        `;
+        card.onclick = () => {
+            currentStory = story;
+            showStory();
+        };
+        favoritesGrid.appendChild(card);
+    });
+    
+    favoritesSection.style.display = 'block';
+}
+
+function renderBrowseSection() {
+    // Render pillar filter buttons
+    const pillarFilter = document.getElementById('pillarFilter');
+    pillarFilter.innerHTML = '';
+    
+    // Get unique pillars
+    const pillars = [...new Set(stories.map(s => s.pillar))];
+    
+    // Add "All" button
+    const allBtn = document.createElement('button');
+    allBtn.className = 'pillar-filter-btn active';
+    allBtn.innerHTML = '✨ All Stories';
+    allBtn.onclick = () => filterByPillar(null);
+    pillarFilter.appendChild(allBtn);
+    
+    // Add pillar buttons
+    pillars.forEach(pillar => {
+        const story = stories.find(s => s.pillar === pillar);
+        const btn = document.createElement('button');
+        btn.className = 'pillar-filter-btn';
+        btn.innerHTML = `${story.icon} ${pillar}`;
+        btn.onclick = () => filterByPillar(pillar);
+        pillarFilter.appendChild(btn);
+    });
+    
+    // Render all stories initially
+    renderBrowseStories();
+    
+    browseSection.style.display = 'block';
+}
+
+function filterByPillar(pillar) {
+    // Update active button
+    document.querySelectorAll('.pillar-filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Render filtered stories
+    renderBrowseStories(pillar);
+}
+
+function renderBrowseStories(pillar = null) {
+    const browseStories = document.getElementById('browseStories');
+    browseStories.innerHTML = '';
+    
+    // Filter stories
+    const filteredStories = pillar 
+        ? stories.filter(s => s.pillar === pillar)
+        : stories;
+    
+    filteredStories.forEach(story => {
+        const card = document.createElement('div');
+        card.className = 'story-card';
+        
+        const isCompleted = completedStories.includes(story.id);
+        const isFavorite = favorites.includes(story.id);
+        
+        let status = '';
+        if (isFavorite) status = '♥ Favorite';
+        else if (isCompleted) status = '✓ Read';
+        
+        card.innerHTML = `
+            <div class="icon">${story.icon}</div>
+            <div class="title">${story.title}</div>
+            <div class="pillar">${story.pillar}</div>
+            ${status ? `<div class="status">${status}</div>` : ''}
+        `;
+        card.onclick = () => {
+            currentStory = story;
+            showStory();
+        };
+        browseStories.appendChild(card);
+    });
 }
 
 // Keyboard shortcuts
