@@ -11,7 +11,7 @@
     <div class="container">
         <header>
             <h1>Our Avi ✨</h1>
-            <p class="subtitle">A story just for you, with love from Papa and Mama</p>
+            <p class="subtitle">A story just for you, with love from Mama and Papa</p>
         </header>
 
         <div class="music-player" id="musicPlayer">
@@ -19,10 +19,15 @@
                 <span class="play-icon">▶</span>
                 <span class="play-text">Begin Tonight's Story</span>
             </button>
-            <div class="volume-control" id="volumeControl" style="display: none;">
-                <label>Music Volume</label>
-                <input type="range" id="volumeSlider" min="0" max="100" value="25">
-                <span id="volumeValue">25%</span>
+            <div class="music-controls" id="musicControls" style="display: none;">
+                <button id="pausePlayButton" class="pause-play-btn">
+                    <span class="pause-icon">⏸</span>
+                </button>
+                <div class="volume-control" id="volumeControl">
+                    <label>Music Volume</label>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="25">
+                    <span id="volumeValue">25%</span>
+                </div>
             </div>
         </div>
 
@@ -31,6 +36,7 @@
                 <div class="pillar-icon" id="pillarIcon">🌟</div>
                 <h2>Tonight's Story is About...</h2>
                 <h3 class="pillar-name" id="pillarName">Love</h3>
+                <button id="pickDifferentButton" class="pick-different-btn">Pick a Different Story</button>
             </div>
         </div>
 
@@ -53,6 +59,23 @@
             <h3>Stories We've Shared</h3>
             <div class="progress-grid" id="progressGrid">
                 <!-- Progress items will be inserted here -->
+            </div>
+        </div>
+
+        <div class="favorites-section" id="favoritesSection" style="display: none;">
+            <h3>Avi's Favorite Stories ♥</h3>
+            <div class="favorites-grid" id="favoritesGrid">
+                <!-- Favorite stories will be inserted here -->
+            </div>
+        </div>
+
+        <div class="browse-section" id="browseSection" style="display: none;">
+            <h3>Browse Stories by Theme</h3>
+            <div class="pillar-filter" id="pillarFilter">
+                <!-- Pillar buttons will be inserted here -->
+            </div>
+            <div class="browse-stories" id="browseStories">
+                <!-- Story cards will be inserted here -->
             </div>
         </div>
 
