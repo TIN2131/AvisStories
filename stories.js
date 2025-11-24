@@ -1,927 +1,659 @@
-// STORY SET SELECTION
-// Change this to switch between story sets:
-// 'set1' = Original 12 stories (more traditional, poetic)
-// 'set2' = New 12 stories (more humor, rhymes, dual-level meaning)
-// 'both' = All 24 stories combined
-const ACTIVE_STORY_SET = 'set2'; // Change this to 'set1', 'set2', or 'both'
+// STORY SET 3 - 15 More Stories with humor, heart, and life lessons
+// Includes Benny the nerdy genius!
 
-// Stories database for Avi - SET 1 (Original)
-const storiesSet1 = [
+const storiesSet3 = [
     {
-        id: 1,
-        pillar: "Love",
-        icon: "💝",
-        title: "The Moon and the Sun",
-        text: `
-            <p>High above the world, the Sun and the Moon loved each other deeply. But they had a problem, little Avi. They could never be together at the same time.</p>
-            
-            <p>When the Sun rose each morning, painting the sky in gold and orange, the Moon had to say goodbye and rest. And when the Moon came out to dance among the stars, the Sun had to slip below the horizon.</p>
-            
-            <p>"How can we show our love," asked the Moon, "when we can never be together?"</p>
-            
-            <p>The Sun thought and thought. "We may not share the same sky," she said, "but we can share the same world. Each day, I will warm the flowers you love. Each night, you can shine on the oceans I've kissed. We will love the same Earth, together."</p>
-            
-            <p>And so they did. The Sun warmed the day, and the Moon cooled the night. The Sun grew the forests, and the Moon called to the tides. They were always apart, but they were never alone.</p>
-            
-            <p>Because real love, dear Avi, doesn't need to be in the same place at the same time. Real love is choosing the same dreams, caring for the same world, and knowing in your heart that someone is always thinking of you—even across the sky.</p>
-        `
-    },
-    {
-        id: 2,
-        pillar: "Resilience",
-        icon: "🌱",
-        title: "The Little Seed in the Stone",
-        text: `
-            <p>Once, a tiny seed fell between two great stones. It was dark there. Cold. The stones pressed close together, and there was barely any room to grow.</p>
-            
-            <p>"I'm stuck," said the seed. "I'll never become a tree."</p>
-            
-            <p>But deep inside that seed was something special—a tiny spark that wouldn't give up. So the seed did the only thing it could do. It reached. One small root, then another, searching for soil.</p>
-            
-            <p>Day after day, the roots pushed through tiny cracks. Week after week, a small green shoot pressed upward, searching for light. The stones didn't move. The way didn't get easier. But the seed kept reaching.</p>
-            
-            <p>Years passed. That little seed became a mighty tree, and do you know what happened to those stones? The tree's roots had grown so strong that they lifted the stones apart. Where there had been no way, the tree had made a way.</p>
-            
-            <p>People came from far away to see the tree growing from stone. "How did you do it?" they asked.</p>
-            
-            <p>The tree rustled its leaves and whispered: "I didn't move the stones all at once. I just grew a little bit each day. Even when it was hard. Even when I couldn't see the sun yet. I kept growing toward it."</p>
-            
-            <p>Remember this, Avi: You don't have to move mountains in a day. You just have to keep growing, even through the stones.</p>
-        `
-    },
-    {
-        id: 3,
-        pillar: "Courage",
-        icon: "🦁",
-        title: "The Smallest Lion",
-        text: `
-            <p>In the great savanna lived the smallest lion cub anyone had ever seen. His name was Tau, which means "lion" in a language from far away.</p>
-            
-            <p>All the other cubs were bigger, faster, louder. When they practiced their roars, the ground shook. When Tau tried to roar, it came out as a squeak.</p>
-            
-            <p>"I'll never be brave like them," Tau thought sadly.</p>
-            
-            <p>One day, a terrible fire started in the dry grass. All the big lions roared warnings—so loud that the small animals froze in fear and couldn't move. The rabbits huddled together. The meerkats stood still. They were too frightened to run.</p>
-            
-            <p>But Tau's small voice could speak softly. He ran to the rabbits and whispered, "Follow me, I know a safe way." His voice didn't scare them. They listened. He led them to the river.</p>
-            
-            <p>Then he ran back for the meerkats, the birds, the mice. Trip after trip, while the other lions roared their big roars, little Tau used his small voice to guide everyone to safety.</p>
-            
-            <p>When the fire was out, the elder lion called everyone together. "Tau," she said, "you showed the truest courage today. The others showed strength—but you showed something greater. You helped those who needed you, even when you were afraid."</p>
-            
-            <p>Sweet Avi, courage isn't about being the biggest or the loudest. Courage is doing what needs to be done, even when your paws are shaking. Even when your roar is small. Especially then.</p>
-        `
-    },
-    {
-        id: 4,
-        pillar: "Kindness",
-        icon: "🌻",
-        title: "The Rain That Learned to Dance",
-        text: `
-            <p>The Rain was very sad. Everywhere it went, people ran away. They closed their windows, grabbed their umbrellas, and hurried inside.</p>
-            
-            <p>"Everyone hates me," cried the Rain. "I just wanted to visit the earth."</p>
-            
-            <p>A wise old Cloud floated by and said, "Rain, you're thinking only about yourself. Look closer at where you fall."</p>
-            
-            <p>So the Rain looked. Really looked. And the Rain began to see things it had never noticed before.</p>
-            
-            <p>There was a garden where an old woman had been praying for her flowers. The Rain fell there first, gently, and watched her face light up with joy.</p>
-            
-            <p>There was a river that was running low, where fish were struggling. The Rain filled it back up, and the fish danced in the fresh water.</p>
-            
-            <p>There was a child with a new red umbrella who had been waiting all week to use it. The Rain fell softly, and the child splashed and laughed in every puddle.</p>
-            
-            <p>The Rain learned to listen—to fall hard where the earth was thirsty, to fall soft where umbrellas were new, to pause where picnics were spread, and to pour where gardens waited.</p>
-            
-            <p>"Now I understand," said the Rain. "Kindness isn't about me. It's about paying attention to what others need."</p>
-            
-            <p>And from that day on, the Rain didn't just fall. The Rain danced—sometimes gentle, sometimes strong, always exactly what the earth needed.</p>
-            
-            <p>Avi, my little one, this is kindness: noticing what others need and showing up for them, in exactly the way they need you to.</p>
-        `
-    },
-    {
-        id: 5,
-        pillar: "Curiosity",
-        icon: "🔭",
-        title: "The Star Who Wanted to Know",
-        text: `
-            <p>In the velvet night sky lived a young star named Stella. While the other stars were content to simply shine, Stella always had questions.</p>
-            
-            <p>"Why do we twinkle?" she asked. "Where does the darkness go when we light up? What's beyond the edge of the sky?"</p>
-            
-            <p>The older stars sighed. "Just shine, Stella. That's what stars do."</p>
-            
-            <p>But Stella couldn't help it. She was curious about everything. She watched the Moon change shape and wondered why. She saw shooting stars and asked where they were going. She noticed that she shined brighter when she was part of a constellation and wondered about connection.</p>
-            
-            <p>One night, a small child looked up at the sky and pointed. "Mom, what are stars made of?"</p>
-            
-            <p>Stella listened carefully to the answer: "Stars are made of the same stuff as you—atoms that were born billions of years ago. We're all made of stardust."</p>
-            
-            <p>Stella shimmered with excitement. "Do you hear that?" she called to the other stars. "We're connected to everything! Every question I've asked, every answer I've searched for—it all matters! We're not just here to shine. We're here to remind them where they came from!"</p>
-            
-            <p>And from that night on, when children looked up and asked questions, Stella shined her brightest. Because she knew that questions aren't annoying—they're the beginning of understanding.</p>
-            
-            <p>Dear Avi, never stop asking why. Every question you ask makes the world a little brighter. Your curiosity is your superpower.</p>
-        `
-    },
-    {
-        id: 6,
-        pillar: "Patience",
-        icon: "🐢",
-        title: "The River's Journey",
-        text: `
-            <p>High in the mountains, a young river was born from melting snow. It rushed down the mountainside, tumbling over rocks, racing as fast as it could go.</p>
-            
-            <p>"I want to reach the ocean NOW!" the river cried, pushing and crashing against everything in its way.</p>
-            
-            <p>An old stone in the riverbed spoke up. "Slow down, young river. You're missing everything."</p>
-            
-            <p>"I don't have time to slow down!" said the river. "The ocean is waiting!"</p>
-            
-            <p>But as the river rushed, it was too fast to carve beautiful canyons. Too quick to create peaceful pools where fish could live. Too hurried to reflect the sunset on its surface.</p>
-            
-            <p>Then one day, the river came to a huge, flat valley. No matter how much it rushed, it couldn't go faster here. It had to slow down and spread wide.</p>
-            
-            <p>At first, the river was frustrated. But then something magical happened. Slowing down, the river could finally see its reflection. Birds came to drink. Flowers grew along its banks. Children splashed in its shallows. The river created life everywhere it flowed.</p>
-            
-            <p>"The ocean will always be there," said the old stone, who had traveled with the river. "But this valley, these birds, these children—they're only here right now."</p>
-            
-            <p>The river understood. It still flowed toward the ocean, but it was no longer in a hurry. It knew that the journey was just as important as the destination.</p>
-            
-            <p>Little Avi, patience doesn't mean standing still. It means moving forward while noticing the beauty around you. The destination will come—but the journey is where life happens.</p>
-        `
-    },
-    {
-        id: 7,
-        pillar: "Gratitude",
-        icon: "🙏",
-        title: "The Tree Who Counted Gifts",
-        text: `
-            <p>In the middle of a forest stood an old oak tree who had grown tired and bitter. "Nobody appreciates me," the tree grumbled. "I give and give, and what do I get? Nothing!"</p>
-            
-            <p>A tiny sparrow landed on a branch. "What do you give?" she asked.</p>
-            
-            <p>"Everything!" said the tree. "My shade, my branches, my acorns. And nobody even says thank you."</p>
-            
-            <p>The sparrow tilted her head. "Let's try something. Tomorrow, let's count what you receive instead of what you give."</p>
-            
-            <p>The next morning, the tree began to notice. The sun rose and gave the tree light for its leaves. "One gift," counted the tree.</p>
-            
-            <p>The rain fell and gave the tree water for its roots. "Two gifts."</p>
-            
-            <p>The wind blew and gave the tree a dance, making its branches sway. "Three gifts."</p>
-            
-            <p>The squirrels played in the tree's branches, making it laugh. "Four gifts."</p>
-            
-            <p>The children read books in the tree's shade, filling the air with stories. "Five gifts."</p>
-            
-            <p>By sunset, the tree had counted hundreds of gifts. The moon gave light. The stars gave company. The earth gave a place to stand. The seasons gave change and beauty.</p>
-            
-            <p>"I've been so busy thinking about what I give," whispered the tree, "that I forgot to notice everything given to me. I'm not tired. I'm abundant. I'm rich with gifts."</p>
-            
-            <p>From that day on, the tree began each morning by counting three gifts before the sun fully rose. And a grateful tree, it turns out, never feels tired at all.</p>
-            
-            <p>Avi, when life feels heavy, count your gifts. You'll find you're richer than you knew.</p>
-        `
-    },
-    {
-        id: 8,
-        pillar: "Perseverance",
-        icon: "⛰️",
-        title: "The Mountain Climber's Secret",
-        text: `
-            <p>A young girl stood at the bottom of the tallest mountain in the world. She had dreamed of reaching the top her whole life.</p>
-            
-            <p>"It's impossible," said the people in the village. "Look how far away the peak is. Look how small you are."</p>
-            
-            <p>But the girl had a secret. She didn't look at the peak. She looked at the next step.</p>
-            
-            <p>"I can take one step," she said. So she did.</p>
-            
-            <p>Then she looked for the next step. "I can take one more step." And she did.</p>
-            
-            <p>Days passed. Weeks passed. The girl took one step, then another, then another. Some steps were easy. Some were so hard she had to rest before trying again. But she never looked at the distant peak and felt overwhelmed. She only looked at the next step.</p>
-            
-            <p>One morning, the girl took a step and realized there were no more steps to take. She had reached the top. She could see the whole world from up there.</p>
-            
-            <p>People gathered in amazement. "How did you do it?" they asked. "How did someone so small climb something so big?"</p>
-            
-            <p>The girl smiled. "I didn't climb the mountain," she said. "The mountain is still too big for me. I just took a lot of single steps. Anyone can take one step. The secret is taking the next one, and the next one, and the next one after that."</p>
-            
-            <p>"But what if you wanted to quit?" someone asked.</p>
-            
-            <p>"Oh, I wanted to quit a thousand times," the girl laughed. "But I never had to climb the whole mountain. I only ever had to take one more step. And I could always manage one more."</p>
-            
-            <p>Sweet Avi, when something feels too big, too hard, too far away—don't look at all of it. Just find the next step. Then take it. That's the secret to climbing mountains.</p>
-        `
-    },
-    {
-        id: 9,
-        pillar: "Joy",
-        icon: "🎨",
-        title: "The Color Collector",
-        text: `
-            <p>There once was a woman who collected colors. Not paint or crayons—she collected moments of color and kept them in her heart.</p>
-            
-            <p>On Monday, she saw the orange of a monarch butterfly and tucked it away in her memory.</p>
-            
-            <p>On Tuesday, she noticed the blue of her daughter's eyes and saved it like a treasure.</p>
-            
-            <p>On Wednesday, she found the pink of a wild rose and pressed it into her heart.</p>
-            
-            <p>People thought she was strange. "Why do you stop and stare at ordinary things?" they asked as they rushed past.</p>
-            
-p>"Because they're not ordinary," she said. "They're miracles wearing everyday clothes."</p>
-            
-            <p>One day, a terrible storm came. It rained for weeks. Everything turned gray and cold. People became sad and heavy.</p>
-            
-            <p>But not the color collector. She closed her eyes and opened her heart, and all the colors she had saved came flooding back. The orange butterfly. The blue eyes. The pink rose. The yellow sunlight. The green leaves. The purple twilight.</p>
-            
-            <p>"How are you still happy?" people asked. "Everything is gray."</p>
-            
-            <p>"Not in here," she said, tapping her heart. "In here, I have a whole rainbow. I've been collecting it my whole life, one color at a time. The storm can take the sunshine from the sky, but it can't take the sunshine I've saved in my soul."</p>
-            
-            <p>She taught everyone her secret: Joy isn't something that happens to you. Joy is something you collect—moment by moment, color by color, smile by smile. When you save the good moments, they're yours forever.</p>
-            
-            <p>Dear Avi, start collecting colors today. Save them in your heart. On gray days, you'll have a rainbow waiting inside you.</p>
-        `
-    },
-    {
-        id: 10,
-        pillar: "Wisdom",
+        id: 25,
+        pillar: "Intelligence",
         icon: "🦉",
-        title: "The Owl's Three Questions",
+        title: "Benny the Brilliant Bookworm",
         text: `
-            <p>In the oldest tree in the forest lived the wisest owl anyone had ever known. Animals came from everywhere to ask the owl for advice.</p>
+            <p>Benny was a little owl who wore glasses—big, round glasses that made his eyes look like moons. The other animals called him a "nerd," and Benny would push up his glasses and say: "Actually, the correct term is 'intellectually enthusiastic.' But thank you."</p>
             
-            <p>"How do I become wise like you?" asked a young fox.</p>
+            <p>Benny read EVERYTHING. Books about stars. Books about worms. Books about the history of mud. He even read the ingredients on acorns. ("Did you know acorns contain tannins? Fascinating!")</p>
             
-            <p>The owl blinked her great eyes slowly. "I will teach you, but it will take time. Are you ready?"</p>
+            <p>The other animals thought he was weird. "Benny, come PLAY with us!" they'd say.</p>
             
-            <p>The fox nodded eagerly.</p>
+            <p>"I AM playing," Benny would reply, nose in a book. "I'm playing with IDEAS. They're like toys for your brain."</p>
             
-            <p>"Before you make any choice," said the owl, "you must ask yourself three questions. These questions have guided me through a very long life."</p>
+            <p>One day, disaster struck. A huge storm was coming, and nobody knew what to do. The rabbits panicked. The squirrels ran in circles. The deer just stood there looking confused (which, to be fair, is their default expression).</p>
             
-            <p>"The first question is: Is it true? Many things sound true, but only some things are true. Before you believe something or repeat it, make sure it is actually true."</p>
+            <p>But Benny? Benny pushed up his glasses.</p>
             
-            <p>"The second question is: Is it kind? Sometimes true things can be said in cruel ways. Before you speak, make sure your truth is wrapped in kindness."</p>
+            <p>"According to my research," he announced, "storms from the northeast typically last 4.7 hours. The cave behind the waterfall has optimal shelter capacity. And—" he pulled out a chart, "—if we leave in the next 12 minutes, we'll arrive with a 94% safety margin."</p>
             
-            <p>"The third question is: Is it necessary? Many true and kind things still don't need to be said. Before you speak, ask if your words will help or just add noise to the world."</p>
+            <p>Everyone stared.</p>
             
-            <p>The fox thought about this. "That seems simple."</p>
+            <p>"Was... was that helpful?" Benny asked nervously.</p>
             
-            <p>"Simple to understand," agreed the owl. "Very difficult to practice. I have lived for fifty years, and I still catch myself forgetting to ask these questions. But every time I remember to ask them, I make better choices."</p>
+            <p>It was VERY helpful. Benny led everyone to safety, calculating the fastest route, predicting wind patterns, and somehow knowing which berries were safe to eat while they waited.</p>
             
-            <p>The fox went home and tried to use the three questions. It was harder than she thought! But slowly, she noticed she made fewer mistakes. She hurt fewer feelings. She solved more problems.</p>
+            <p>After the storm, the cool fox (who had never talked to Benny before) walked over. "Hey, nerd."</p>
             
-            <p>Years later, animals started calling the fox wise too. And when they asked her secret, she smiled and said, "Three questions. That's all. Just three questions, asked over and over again, for your whole life."</p>
+            <p>Benny sighed. "It's 'intellectually enthusias—'"</p>
             
-            <p>Avi, wisdom isn't about knowing everything. It's about asking the right questions: Is it true? Is it kind? Is it necessary? Ask these, and you'll always find your way.</p>
+            <p>"You saved everyone today," the fox interrupted. "You know what? Being smart isn't weird. It's a SUPERPOWER. And your glasses? They're kinda cool."</p>
+            
+            <p>Benny's owl face turned pink. "Really?"</p>
+            
+            <p>"Really. Now can you explain that thing about tannins in acorns? That actually sounds interesting."</p>
+            
+            <p>From that day on, Benny was still a nerd. He still read the ingredients on acorns. He still made charts about weather patterns. But now? The other animals would gather around and listen. Because they finally understood: the "weird" things that make you different might be the exact things that save everyone someday.</p>
+            
+            <p><em>Here's what your parents want you to know, Avi: Be the nerd. Be the weirdo. Be the one who reads too much and asks too many questions. The world needs people who are "too smart," "too curious," "too different." Those are the people who push up their glasses and save everyone when the storm comes. And the right friends? They won't call you weird. They'll call you wonderful.</em></p>
         `
     },
     {
-        id: 11,
-        pillar: "Hope",
-        icon: "🌅",
-        title: "The Dawn That Never Failed",
+        id: 26,
+        pillar: "Authenticity",
+        icon: "🦜",
+        title: "The Parrot Who Stopped Copying",
         text: `
-            <p>Long ago, there was a village that forgot how to hope. They had been through so many hard times—storms and droughts and difficulties—that they stopped believing good things could happen.</p>
+            <p>Polly the parrot was AMAZING at copying. She could sound like a lion: "ROAR!" She could sound like a monkey: "OOH OOH AH AH!" She could even sound like a human: "POLLY WANTS A CRACKER!"</p>
             
-            <p>"What's the point of trying?" they said. "Things will probably just go wrong anyway."</p>
+            <p>Everyone loved Polly's impressions. She was invited to every party. "Do the elephant!" they'd cheer. "Do the whale! Do the grumpy old badger!"</p>
             
-            <p>In this village lived a small girl who woke up every morning before anyone else. While it was still dark, she would climb to the top of the highest hill and wait.</p>
+            <p>But one night, alone on her branch, Polly realized something sad: she had no idea what SHE sounded like.</p>
             
-            <p>And every morning, without fail, the sun rose.</p>
+            <p>She'd spent so long copying others that she'd never found her own voice.</p>
             
-            <p>One day, a woman from the village followed her. "What are you doing up here in the dark?" she asked.</p>
+            <p>"What do I sound like?" she asked herself. She opened her beak and... nothing came out. Just silence. She'd forgotten.</p>
             
-            <p>"Waiting for the sunrise," said the girl.</p>
+            <p>Polly panicked. She tried to make a sound—any sound—but all that came out were copies. Lion sounds. Monkey sounds. Even that dumb "Polly wants a cracker" thing she didn't even LIKE crackers that much.</p>
             
-            <p>"But it comes every day," said the woman. "Why wait for something that's guaranteed?"</p>
+            <p>An old crow landed next to her. "What's wrong, young one?"</p>
             
-            <p>The girl smiled. "That's exactly why! The sun has risen every single day of my life. Through every storm, every difficulty, every dark night—the sun has never forgotten to come back. If the sun can keep showing up, day after day, no matter what—then so can I."</p>
+            <p>"I don't know what I sound like!" Polly cried—accidentally in the voice of a crying dolphin.</p>
             
-            <p>The woman sat down beside her, and together they watched the sky grow light. First gray, then pink, then gold. And when the sun finally broke over the horizon, the woman felt something she hadn't felt in years.</p>
+            <p>The crow nodded wisely. "You've been speaking everyone's language except your own. Here's my advice: stop talking for a while. Just listen. Listen to the wind, the water, the silence. And when you finally DO speak, don't try to sound like anyone. Just... open your beak and see what comes out."</p>
             
-            <p>Hope.</p>
+            <p>Polly spent a whole week in silence. No impressions. No copying. Just listening.</p>
             
-            <p>She brought others to watch the sunrise. They brought others. Soon, the whole village would gather on the hill each morning, reminding themselves: The dawn has never failed. Not once. Not ever.</p>
+            <p>And then, on the seventh day, she opened her beak and sang.</p>
             
-            <p>"No matter how dark it gets," the girl would say, "morning is already on its way. You just have to hold on until it arrives."</p>
+            <p>It wasn't a lion or a monkey or a whale. It was something entirely new—a little rough, a little weird, but completely, unmistakably POLLY.</p>
             
-            <p>My precious Avi, hope is not foolish. Hope is brave. It's trusting that light will come again, even when you're sitting in darkness. And it always does. It always has. The dawn has never failed.</p>
+            <p>"What IS that?" asked the other animals.</p>
+            
+            <p>"That's me," Polly said, in her own voice for the first time. "I know it's not as impressive as my copies. But it's MINE."</p>
+            
+            <p>"You know what?" said the crow. "It's better. Copies are fun at parties. But real voices? Those are what we remember."</p>
+            
+            <p><em>Mom and Dad feel this one, Avi: We've all copied others. Tried to sound smart like that person, cool like this person, successful like someone else. But somewhere along the way, we forgot what WE sound like. Your job isn't to copy anyone—not us, not your teachers, not the cool kids. Your job is to find YOUR voice. Even if it's weird. Even if it's rough. It's yours. And that makes it more beautiful than any copy could ever be.</em></p>
         `
     },
     {
-        id: 12,
-        pillar: "Belonging",
-        icon: "🏡",
-        title: "The Puzzle Piece's Journey",
+        id: 27,
+        pillar: "Forgiveness",
+        icon: "🐘",
+        title: "The Elephant Who Forgot on Purpose",
         text: `
-            <p>Once there was a puzzle piece who felt very alone. It was oddly shaped, with bumps and curves that didn't seem to make sense.</p>
+            <p>Everyone knows elephants never forget. It's their THING. Ellie the elephant remembered everything: every birthday, every insult, every time someone borrowed something and didn't return it.</p>
             
-            <p>"I don't fit anywhere," the piece said sadly. "I'm too different. I'll never belong."</p>
+            <p>"Remember when you stepped on my trunk in 2019?" Ellie would say.</p>
             
-            <p>The puzzle piece tried forcing itself into spaces that looked almost right. It would squeeze and push, trying to change its shape. But it never quite fit, and it was exhausting trying to be something it wasn't.</p>
+            <p>"That was FOUR YEARS AGO!" the mouse would squeak.</p>
             
-            <p>Then one day, the puzzle piece stopped trying to fit into spaces that were wrong. Instead, it just rested and looked at itself honestly. "These are my edges," it said. "These bumps and curves are part of who I am."</p>
+            <p>"I'm an elephant. I never forget."</p>
             
-            <p>And then something wonderful happened. Another puzzle piece came along—one with the opposite curves, the matching bumps, the perfect spaces.</p>
+            <p>The problem was, Ellie's brain was getting HEAVY. Not literally (well, maybe literally—elephant brains are huge), but emotionally. She carried around every hurt, every slight, every mean thing anyone had ever done. Her memory was a museum of pain.</p>
             
-            <p>"I've been looking everywhere for you!" said the other piece.</p>
+            <p>One day, a wise old tortoise asked her: "Ellie, what's the happiest you've ever been?"</p>
             
-            <p>They fit together perfectly. Click!</p>
+            <p>Ellie thought about it. And thought. And thought. But every happy memory was clouded by a hurt that came after it. The birthday party where someone forgot to bring her a gift. The swimming hole that someone else got to first. The compliment that someone took back.</p>
             
-            <p>Soon, more pieces came. One by one, they found each other. Each piece was different—different colors, different shapes, different edges. But together, they made something beautiful. A picture that couldn't exist without every single one of them.</p>
+            <p>"I... I can't remember," she said sadly.</p>
             
-            <p>"I thought being different meant I didn't belong," said the first puzzle piece.</p>
+            <p>"That's the problem with never forgetting," said the tortoise. "You remember the bad so clearly that the good gets fuzzy. What if you tried something radical?"</p>
             
-            <p>"Being different is exactly why you belong," said all the others. "We don't need another piece like us. We need you, exactly as you are. Your unique shape is what makes the picture complete."</p>
+            <p>"What?"</p>
             
-            <p>The puzzle piece learned that belonging doesn't mean being the same. Belonging means finding the people who appreciate your unique edges, who fit with you exactly as you are.</p>
+            <p>"Forgetting. On purpose."</p>
             
-            <p>Sweet Avi, you will always belong. Not because you're the same as everyone else, but because you're you. Your unique shape is exactly what the world needs. Somewhere, your people are looking for you too.</p>
-        `
-    }
-];
-// NEW STORY SET - Stories with humor, rhymes, and dual-level meaning for baby AND parents
-const storiesSet2 = [
-    {
-        id: 13,
-        pillar: "Love",
-        icon: "🦦",
-        title: "The Otter Who Held Hands",
-        text: `
-            <p>In the cold ocean lived two otters named Opal and Otto. They did everything together—diving for clams, floating on their backs, playing in the kelp forest.</p>
+            <p>"But I'm an ELEPHANT! We don't forget!"</p>
             
-            <p>But there was one thing they did that made all the other animals smile: whenever they slept, they held hands.</p>
+            <p>"You don't have to forget that it happened," the tortoise said. "You just have to forget to carry it around. There's a difference between remembering and holding on."</p>
             
-            <p>"Why do you hold hands?" asked a passing whale. "Aren't you worried you'll drift apart in your sleep?"</p>
+            <p>Ellie tried it. She thought about the mouse who stepped on her trunk and instead of holding the hurt, she just... let it go. Like a balloon floating away.</p>
             
-            <p>"That's exactly why we hold hands," said Opal.</p>
+            <p>It felt WEIRD. But also... lighter?</p>
             
-            <p>Otto nodded. "The current is strong. The ocean is big. If we don't hold on to each other, we might wake up far apart. And I'd rather wake up together than wake up alone."</p>
+            <p>She did it again. And again. One by one, she released the hurts she'd been carrying for years.</p>
             
-            <p>The whale thought about this. "But what if one of you wants to swim away in the night?"</p>
+            <p>She still remembered them. She was still an elephant, after all. But she stopped carrying them. She put them down. And suddenly, she had room for something new: joy.</p>
             
-            <p>The otters looked at each other and laughed. "Then we'd let go!" said Otto. "We hold hands because we WANT to stay together, not because we HAVE to. That's what makes it love."</p>
+            <p>"Ellie!" her friends said. "You seem so... happy!"</p>
             
-            <p>Years passed. Opal and Otto grew old together, their paws wrinkled and their whiskers gray. Other otters would see them floating, paws clasped, and ask: "Doesn't your paw get tired?"</p>
+            <p>"I learned something," Ellie smiled. "Having a good memory is a gift. But knowing what to forget? That's wisdom."</p>
             
-            <p>"Oh yes," said Opal, squeezing Otto's paw. "But my heart would be more tired without it."</p>
-            
-            <p><em>Here's what your parents know, little Avi: Love isn't about never letting go. It's about choosing to hold on, every single night, even when the current is strong. Even when your paw gets tired. Especially then.</em></p>
-            
-            <p>And so the otters held hands as they floated, and the ocean rocked them gently, and they dreamed of tomorrow—together, always together, by choice.</p>
+            <p><em>This one's for the grown-ups, Avi: We remember everything too. Every hurt, every disappointment, every time someone let us down. We carry it around like trophies of pain. But here's the secret: forgiveness isn't about pretending it didn't happen. It's about choosing not to carry it anymore. It's putting the hurt down so you have hands free to pick up joy. We're going to try to teach you this—but honestly? We're still learning it ourselves.</em></p>
         `
     },
     {
-        id: 14,
-        pillar: "Resilience",
-        icon: "🥚",
-        title: "The Egg That Wouldn't Crack",
+        id: 28,
+        pillar: "Self-Worth",
+        icon: "🐚",
+        title: "The Shell That Thought It Was Empty",
         text: `
-            <p>Once there was an egg named Edgar. He lived in a warm nest with his three brothers and sisters, and every day, the mother bird would sing: <em>"Crack crack crack, little ones! Time to hatch! The world is waiting!"</em></p>
+            <p>On a crowded beach lived a little shell named Shelly. All around her were SPECTACULAR shells—big ones, colorful ones, shells with stripes and spots and swirls that made people say "OOOH!"</p>
             
-            <p>One by one, Edgar's siblings cracked their shells—<em>tap tap TAP!</em>—and tumbled out, all fluffy and cheeping.</p>
+            <p>But Shelly? Shelly was small. Plain. A little chipped on one side.</p>
             
-            <p>But Edgar stayed inside his shell.</p>
+            <p>"Nobody will ever pick ME up," Shelly sighed as people walked by, grabbing the pretty shells and leaving her behind.</p>
             
-            <p>"Come on, Edgar!" chirped his sister. "It's beautiful out here!"</p>
+            <p>One day, a little girl sat down next to Shelly. She wasn't grabbing shells. She was just... sitting. Looking sad.</p>
             
-            <p>"I'm... I'm trying," said Edgar from inside. "But my shell is so thick. And I'm so tired. And what if I'm not ready?"</p>
+            <p>"What's wrong?" Shelly asked (shells can talk in this story, obviously).</p>
             
-            <p>His mother nestled close. "Oh, my little egg. You don't crack your shell all at once. You make one tiny crack. Then you rest. Then another tiny crack. Then you rest again."</p>
+            <p>The girl jumped. "You can TALK?"</p>
             
-            <p>"But what if I never get out?" Edgar worried.</p>
+            <p>"Apparently! What's wrong?"</p>
             
-            <p>"You will," said his mother. "Because inside that egg is a bird who wants to fly. And that bird? That's you. You're already everything you need to be—you just have to break through to meet yourself."</p>
+            <p>"I don't have any friends. Everyone thinks I'm boring. I'm not pretty or talented or special."</p>
             
-            <p>So Edgar made one small crack. Just one. <em>Tap.</em> Then he rested.</p>
+            <p>Shelly laughed. "Hey, me too! Look at me—I'm chipped! And plain! And nobody ever picks me up!"</p>
             
-            <p>The next day, another crack. <em>Tap.</em> Then he rested.</p>
+            <p>The girl looked at Shelly. Really looked. "But... you're beautiful."</p>
             
-            <p>On the third day—<em>TAP TAP CRACK!</em>—his beak poked through! He could see sky!</p>
+            <p>"What? No I'm not. See that shell over there? THAT one is beautiful. I'm just... regular."</p>
             
-            <p>On the fourth day, one wing pushed out. On the fifth, the other wing. And on the sixth day, Edgar tumbled into the nest, exhausted, messy, absolutely beautiful.</p>
+            <p>The girl picked up Shelly and held her to her ear. And she heard something amazing: the ocean. Not just any ocean—THE WHOLE OCEAN. Crashing waves and whale songs and the history of water itself.</p>
             
-            <p>"You did it!" cheered his siblings.</p>
+            <p>"You have the ocean inside you," the girl whispered.</p>
             
-            <p>"I did," said Edgar, breathing hard. "But wow. That was the hardest thing I've ever done."</p>
+            <p>"I... I do?"</p>
             
-            <p>His mother smiled. "And now you know something important: The struggle to break through? That's what made your wings strong enough to fly."</p>
+            <p>"You do. And you thought you were empty. But Shelly, you're not empty. You're FULL. Full of something so big that people have to slow down and listen to hear it."</p>
             
-            <p><em>Your parents know this, Avi: Sometimes the hardest part isn't the breaking—it's the resting between the breaks. It's okay to take your time. The shell will crack when you're ready. And when it does, you'll have wings.</em></p>
+            <p>Shelly had never thought about it that way. She'd been so busy looking at her outside—the chips, the plainness—that she forgot about her inside. About the ocean she carried.</p>
+            
+            <p>The girl put Shelly in her pocket. "You're coming home with me. You're exactly what I was looking for."</p>
+            
+            <p>"But I'm not pretty—"</p>
+            
+            <p>"You're better. You're true. And true is better than pretty every single time."</p>
+            
+            <p><em>Avi, your parents have felt like Shelly. We've compared ourselves to "better" people—prettier, smarter, more successful. We've looked at our chips and cracks and thought we were empty. But here's what we've learned: The most valuable things about you aren't visible. They're the ocean inside you. The love you carry. The music you make when people take the time to listen. You are not empty. You are impossibly, magnificently full.</em></p>
         `
     },
     {
-        id: 15,
-        pillar: "Courage",
-        icon: "🐛",
-        title: "The Very Brave Caterpillar",
+        id: 29,
+        pillar: "Boundaries",
+        icon: "🦀",
+        title: "The Crab Who Learned to Say No",
         text: `
-            <p>There once was a caterpillar named Carl who was afraid of everything. Afraid of birds. Afraid of storms. Afraid of the dark. Afraid of leaves that looked at him funny.</p>
+            <p>Carlos the crab was the nicest crab on the beach. TOO nice, actually.</p>
             
-            <p>"Carl," said his friend Cassie, "you're going to turn into a butterfly soon. Aren't you excited?"</p>
+            <p>"Carlos, can you carry my stuff?" Sure!</p>
+            <p>"Carlos, can you share your food?" Of course!</p>
+            <p>"Carlos, can you give up your spot?" No problem!</p>
             
-            <p>"EXCITED?!" Carl trembled. "I'm terrified! What if I get stuck in the cocoon? What if my wings don't work? What if I forget how to be me?"</p>
+            <p>Carlos said yes to EVERYTHING. And everyone loved him for it! Well, everyone loved USING him for it.</p>
             
-            <p>An old butterfly landed nearby. "Oh, you WILL forget how to be you," she said cheerfully.</p>
+            <p>One day, Carlos was exhausted. He'd given away his lunch, his spot, his afternoon, and somehow agreed to babysit seventeen hermit crab children. He sat on a rock, completely empty.</p>
             
-            <p>Carl gasped. "WHAT?!"</p>
+            <p>An old lobster clacked over. "You look terrible."</p>
             
-            <p>"Inside the cocoon," the butterfly continued, "you'll literally dissolve. You'll become goo. Complete mush. Everything you are will fall apart."</p>
+            <p>"Thanks," Carlos muttered. "I'm just tired from helping everyone."</p>
             
-            <p>Carl started hyperventilating. "This is TERRIBLE NEWS!"</p>
+            <p>"Helping everyone? Or letting everyone take from you?"</p>
             
-            <p>"But here's the thing," the butterfly said gently. "That goo? It remembers. Somewhere in that mush is every leaf you ate, every friend you made, every fear you faced. And it uses all of that to build something new. Something that can FLY."</p>
+            <p>"What's the difference?"</p>
             
-            <p>"But I won't be Carl anymore," he said sadly.</p>
+            <p>The lobster sat down. "Helping is when you give from your overflow. Taking is when others drain you dry. One leaves you tired-but-happy. The other leaves you tired-and-resentful. Which one are you?"</p>
             
-            <p>"You'll be MORE than Carl," she said. "You'll be what Carl was always becoming."</p>
+            <p>Carlos thought about it. He wasn't happy. He was EXHAUSTED. And honestly? A little angry. But he'd never said anything because nice crabs don't say no... right?</p>
             
-            <p>Still, when the time came, Carl was scared. He spun his cocoon slowly, crying a little.</p>
+            <p>"Try something," said the lobster. "Next time someone asks for something, pause. Ask yourself: 'Do I want to do this? Or do I just feel like I HAVE to?' If it's have-to, the answer is no."</p>
             
-            <p>"Cassie?" he called out. "I'm scared."</p>
+            <p>"But what if they get mad?"</p>
             
-            <p>"I know," Cassie called back. "But Carl? Being scared and doing it anyway? THAT'S courage."</p>
+            <p>"Some will. Those aren't your friends—those are your users. Real friends respect your no."</p>
             
-            <p>Inside the cocoon, Carl did indeed dissolve. And it was strange. And lonely. And weird. But then—cell by cell—he began to remember himself. To rebuild himself. To become.</p>
+            <p>The next day, someone asked Carlos to give up his lunch. He paused. Did he WANT to? No. He was hungry.</p>
             
-            <p>When he emerged, his wings wet and crumpled, Cassie gasped. "Carl! You're BEAUTIFUL!"</p>
+            <p>"No thank you," Carlos said. His voice was shaky. His claws were sweaty (do crabs sweat? Let's say yes).</p>
             
-            <p>Carl looked at his wings. "I'm... different. But also... still me?"</p>
+            <p>The other crab looked shocked. "But you always say yes!"</p>
             
-            <p>"You're you," Cassie said. "Just you with wings now."</p>
+            <p>"I know. But I'm learning that 'yes' means nothing if I'm not allowed to say 'no.'"</p>
             
-            <p><em>Mom and Dad know this one hurts, Avi: Change means letting go of who you were to become who you're meant to be. And yes, it's terrifying. Yes, you'll dissolve a little. But you'll also fly.</em></p>
+            <p>Some crabs stopped talking to Carlos after that. But others—the real ones—respected him MORE. "I like that you have boundaries," they said. "It makes your yes actually mean something."</p>
             
-            <p>And Carl flew. Scared at first, then braver. And he never stopped being afraid of everything. But he flew anyway. That's what brave caterpillars do.</p>
+            <p><em>Oh, Avi, your parents are TERRIBLE at this. We say yes when we mean no. We give until we're empty. We think being nice means never having boundaries. But here's what we're learning (and what we'll try to teach you): "No" is not a mean word. It's a complete sentence. It's how you protect your energy for the things that actually matter. The right people won't leave when you set boundaries. They'll respect you more for having them.</em></p>
         `
     },
     {
-        id: 16,
-        pillar: "Kindness",
-        icon: "🦔",
-        title: "The Hedgehog's Hug",
+        id: 30,
+        pillar: "Failure",
+        icon: "🕷️",
+        title: "The Spider's Spectacular Mess",
         text: `
-            <p>Harriet the hedgehog had a problem: she was covered in spikes.</p>
+            <p>Stella the spider was trying to build the perfect web. Not a GOOD web. Not an OKAY web. The PERFECT web. The most beautiful, symmetrical, mathematically flawless web the world had ever seen.</p>
             
-            <p>Every time she tried to hug someone, they said "OW!" and jumped away. The rabbits avoided her. The squirrels kept their distance. Even her own family hugged very, very carefully.</p>
+            <p>She tried 47 times. Each time, something went wrong. A strand too long. A gap too wide. Once, a fly flew through it and she had to start over (also she accidentally ate the fly, but that's just instinct).</p>
             
-            <p>"I just want to hug someone without hurting them," Harriet cried to the old owl.</p>
+            <p>"This is IMPOSSIBLE!" Stella cried after her 48th attempt. "I quit!"</p>
             
-            <p>The owl blinked wisely. "Have you tried taking your spikes off?"</p>
+            <p>An old moth fluttered by. "Whatcha making?"</p>
             
-            <p>"I CAN'T take them off!" said Harriet. "They're part of me! They protect me!"</p>
+            <p>"A perfect web. Except I can't. I've failed 48 times."</p>
             
-            <p>"Exactly," said the owl. "So maybe the question isn't 'How do I stop having spikes?' Maybe it's 'Who's willing to be careful around them?'"</p>
+            <p>The moth landed on a nearby leaf. "Ooh, 48 failures! That's impressive!"</p>
             
-            <p>This made Harriet sad. She curled into a ball—which made her even spikier—and rolled away.</p>
+            <p>"IMPRESSIVE?! It's embarrassing!"</p>
             
-            <p>Later, she found a tortoise named Terry crying by a stream.</p>
+            <p>"No, no, no," the moth said. "You misunderstand. Every failure taught you something. You now know 48 ways NOT to build a web. That's 48 more lessons than someone who never tried."</p>
             
-            <p>"What's wrong?" asked Harriet.</p>
+            <p>"But I still don't have a perfect web!"</p>
             
-            <p>"I'm stuck on my back!" Terry wailed. "And everyone who tries to flip me over gets tired. I'm too heavy. Too hard to help."</p>
+            <p>The moth looked at Stella's latest attempt—messy, crooked, definitely not symmetrical. "Can I tell you a secret?"</p>
             
-            <p>Harriet looked at her spikes. Then at Terry. Then she had an idea.</p>
+            <p>"Sure."</p>
             
-            <p>She carefully positioned her spikes under Terry's shell and HEAVED. The spikes gave her leverage! Terry flipped right over!</p>
+            <p>"Perfect webs don't catch flies. They're too predictable. Flies can see them coming. But THIS web? It's unexpected. Surprising. A little chaotic. Flies won't know what hit them."</p>
             
-            <p>"You did it!" Terry gasped. "But... weren't you afraid your spikes would hurt me?"</p>
+            <p>Stella looked at her messy web with new eyes. "So... my failures made it... better?"</p>
             
-            <p>"I was careful," Harriet said. "I can't take my spikes off. But I can choose where I point them."</p>
+            <p>"Your failures made it YOURS. Anyone can copy a perfect pattern. But this—this weird, wonky, wonderful web—could only come from you. From your 48 attempts. From your unique struggle."</p>
             
-            <p>Terry smiled. "Can I... can I try to hug you?"</p>
+            <p>That night, Stella caught more flies than any spider with a "perfect" web. And every time someone complimented her unique design, she smiled and said: "Thanks! It took me 48 failures to get it this messy."</p>
             
-            <p>"I'm very spiky," Harriet warned.</p>
-            
-            <p>"I'm very shelled," Terry said. "We might be perfect for each other."</p>
-            
-            <p>And you know what? They were. Terry's shell protected him from Harriet's spikes. And Harriet's spikes protected Terry from predators. They became best friends.</p>
-            
-            <p>One day, Harriet asked: "Do you ever wish I wasn't spiky?"</p>
-            
-            <p>"Never," said Terry. "Your spikes make you YOU. And you're the kindest person I know—not despite your spikes, but including them."</p>
-            
-            <p><em>Here's the grown-up part, little one: Real kindness isn't making yourself smaller so you don't hurt anyone. It's being fully yourself while being careful with others. Some people will get close. Some won't. That's okay. The right people—the Terry people—will love you, spikes and all.</em></p>
+            <p><em>Here's what we want you to know, Avi: Failure isn't the opposite of success. It's the ROAD to success. Every mess, every mistake, every "this didn't work" is a lesson in disguise. We're going to let you fail. A lot. Because we know that on the other side of 48 failures is a web that's uniquely, beautifully, impossibly YOURS. And that's worth more than any perfect copy.</em></p>
         `
     },
     {
-        id: 17,
-        pillar: "Curiosity",
-        icon: "🐙",
-        title: "The Octopus Who Asked Why",
+        id: 31,
+        pillar: "Comparison",
+        icon: "🐌",
+        title: "The Snail Who Raced a Cheetah",
         text: `
-            <p>Oliver the octopus had eight arms and eight billion questions.</p>
+            <p>Stanley the snail made a terrible mistake: he followed a cheetah on social media.</p>
             
-            <p><em>"Why is water wet? Why do fish swim in schools—do they take tests? Why is my blood blue? Why do I have three hearts? WHY DO I HAVE THREE HEARTS?!"</em></p>
+            <p>Okay, not literally (snails don't have phones—yet). But he did start watching the cheetah every day, comparing himself constantly.</p>
             
-            <p>The other sea creatures got annoyed. "Oliver, PLEASE. Can you just BE for five minutes without asking WHY?"</p>
+            <p>"Look how FAST he is!" Stanley moaned, inching along at his usual snail pace. "I'll never be that fast. I'm so SLOW. What's wrong with me?"</p>
             
-            <p>But Oliver couldn't help it. Everything was interesting! Everything led to another question!</p>
+            <p>Stanley became obsessed. He started waking up earlier, trying to move faster, pushing himself until his little snail foot was exhausted. But no matter how hard he tried, he was still... a snail.</p>
             
-            <p>One day, he asked an old sea turtle: "Why do you swim so slowly?"</p>
+            <p>"I hate being a snail," Stanley said sadly to a passing butterfly.</p>
             
-            <p>"Because I've learned," said the turtle, "that the ocean rewards the curious more than the fast."</p>
+            <p>"Why?" asked the butterfly.</p>
             
-            <p>"What do you mean?"</p>
+            <p>"Because I'm so SLOW. That cheetah over there can run 70 miles per hour. I can't even do 70 feet per HOUR."</p>
             
-            <p>The turtle smiled. "Swim with me. But this time, don't ask questions with your mouth. Ask them with your eyes."</p>
+            <p>The butterfly landed next to him. "Can I ask you something? Can the cheetah carry his house on his back?"</p>
             
-            <p>So Oliver swam slowly, really LOOKING. He saw things he'd swum past a thousand times but never noticed: Tiny shrimp doing backflips. Coral breathing. Light bending through water in impossible colors.</p>
+            <p>"Well... no."</p>
             
-            <p>"I've been swimming too fast," Oliver whispered.</p>
+            <p>"Can the cheetah leave a trail of slime that makes plants grow better?"</p>
             
-            <p>"Most creatures do," said the turtle. "They're so busy going somewhere that they forget to notice HERE."</p>
+            <p>"No..."</p>
             
-            <p>Oliver spent the whole day asking questions with his eyes instead of his mouth. He found seventeen new creatures he'd never seen before. He discovered that if you watch a clam long enough, it gets embarrassed and closes. He learned that seahorses hold tails when they're in love—just like otters hold hands!</p>
+            <p>"Can the cheetah squeeze into tiny spaces, feel the earth beneath him, or take time to notice the small beautiful things?"</p>
             
-            <p>That night, his friends asked: "Oliver, you were quiet today. Are you okay?"</p>
+            <p>"No. But—"</p>
             
-            <p>"I'm GREAT!" said Oliver. "I just learned that there are two kinds of curiosity: the kind that asks questions, and the kind that LISTENS to answers. I've been doing a lot of asking. I think I need to do more listening."</p>
+            <p>"You're comparing your worst quality to his best quality. That's not fair to either of you. The cheetah has things he can't do that YOU can do. You're playing different games. With different rules. On different fields."</p>
             
-            <p>But then he immediately added: "Although I DO have a new question—"</p>
+            <p>Stanley thought about this. "So I shouldn't compare myself to him?"</p>
             
-            <p>Everyone groaned.</p>
+            <p>"Compare yourself to yesterday's YOU. Are you a little further along than you were yesterday? Even by an inch?"</p>
             
-            <p>"—why do questions make people groan? Is it the frequency? The interruption? The reminder that they don't know everything? I HAVE SO MANY FOLLOW-UP QUESTIONS."</p>
+            <p>Stanley looked at his trail. He'd actually moved pretty far today! For a snail. For HIM.</p>
             
-            <p><em>Your parents are laughing because they GET it, Avi: Curiosity is beautiful, but it can also be exhausting. The trick is learning when to ask out loud and when to ask quietly. When to wonder with words and when to wonder with your heart. Both kinds of curiosity matter. And yes, you'll probably ask "why" seven thousand times a day. And yes, we'll pretend to be annoyed. But secretly? We'll love every single question. Even at 3 AM. Even "why is the sky blue" for the fourteenth time. Every. Single. One.</em></p>
+            <p>"I moved almost three feet today," Stanley said quietly. "That's a personal record."</p>
+            
+            <p>"See?" The butterfly smiled. "THAT'S the only race that matters. Not snail vs. cheetah. Just you vs. yesterday you. And today? You won."</p>
+            
+            <p><em>Avi, your parents are GUILTY of this. We compare our insides to other people's outsides. Our beginnings to their middles. Our real life to their highlight reels. It's exhausting. It's unfair. And it's a game we can never win. Here's what we're trying to learn: The only comparison that matters is who you were yesterday vs. who you are today. Inch by inch. Bit by bit. That's the only race. And you're already winning it.</em></p>
         `
     },
     {
-        id: 18,
-        pillar: "Patience",
-        icon: "🌰",
-        title: "The Acorn's Long Game",
+        id: 32,
+        pillar: "Rest",
+        icon: "🐨",
+        title: "The Koala Who Refused to Nap",
         text: `
-            <p>An acorn fell from a great oak tree and landed—<em>plop!</em>—in the dirt.</p>
+            <p>Kai the koala had a WILD reputation. While other koalas slept 22 hours a day, Kai only slept 18.</p>
             
-            <p>"HELLO WORLD!" the acorn shouted. "I'm going to be a MIGHTY OAK TREE! When do I start?"</p>
+            <p>"Sleep is for the WEAK!" Kai would shout, which was ironic because she was clearly exhausted. "I have things to DO! Trees to climb! Eucalyptus to eat! I'll sleep when I'm dead!"</p>
             
-            <p>The old tree above chuckled. "Oh, you've already started."</p>
+            <p>The other koalas were concerned. "Kai, you have bags under your eyes."</p>
             
-            <p>"But I'm still just an acorn! When do I get big?"</p>
+            <p>"Those aren't bags, they're EXPERIENCE pouches!"</p>
             
-            <p>"In about 20 years, you'll be a young tree. In 50 years, you'll be respectable. In 100 years, you'll be getting interesting. In 300 years, you might be magnificent."</p>
+            <p>"Kai, you just fell asleep mid-sentence."</p>
             
-            <p>The acorn was horrified. "THREE HUNDRED YEARS?! That's forever! What am I supposed to DO for 300 years?"</p>
+            <p>"I was RESTING MY EYES!"</p>
             
-            <p>"Grow," said the tree.</p>
+            <p>"Kai, you're literally hugging that tree because you're too tired to hold on."</p>
             
-            <p>"That's IT?!"</p>
+            <p>"I'm being... affectionate?"</p>
             
-            <p>"That's everything."</p>
+            <p>One day, Kai was so tired she fell out of her tree. PLOP. Right onto the ground. Where a very wise wombat happened to be walking by.</p>
             
-            <p>The acorn was furious. A nearby mushroom sprouted overnight and was already full-grown. "SEE?!" said the acorn. "Mushroom did it in ONE DAY!"</p>
+            <p>"Let me guess," said the wombat. "Too busy to rest?"</p>
             
-            <p>"Sure," said the old tree. "And they'll be gone by next week. You're not playing the mushroom game. You're playing the tree game. Different timeline. Different rules. Different rewards."</p>
+            <p>"Rest is wasted time!" Kai mumbled into the dirt.</p>
             
-            <p>Years passed. The acorn became a seedling—barely a foot tall. A rabbit hopped by and laughed. "Still tiny, huh?"</p>
+            <p>"Really?" The wombat sat down. "Do you know what happens during rest? Your body heals. Your brain organizes memories. Your creativity recharges. Rest isn't doing NOTHING. Rest is doing EVERYTHING—just slowly, quietly, invisibly."</p>
             
-            <p>The seedling sighed. "Yeah. Still tiny."</p>
+            <p>"But I have so much to DO—"</p>
             
-            <p>More years. The seedling became a sapling. Birds nested in nearby bushes but not in the sapling. "Too small," they said.</p>
+            <p>"And you'll do it worse if you're exhausted. Here's a secret: the most productive creatures aren't the ones who work the most. They're the ones who rest the best. A well-rested koala can climb twice as high as a tired one. Can you climb right now?"</p>
             
-            <p>Decades passed. The sapling became a young tree. Still not impressive. Still not mighty. Just... growing.</p>
+            <p>Kai tried to stand up. She couldn't. She was too tired.</p>
             
-            <p>And then one day—it must have been year 47 or 48—something shifted. The tree realized it was taller than the bushes. Stronger than the saplings. Its roots reached DEEP. Its branches spread WIDE.</p>
+            <p>"Rest isn't weakness," the wombat said gently. "It's strategy. Now go to sleep. The tree will still be there when you wake up. But you won't be able to climb it if you're unconscious on the ground."</p>
             
-            <p>More time passed. 100 years. 200 years. And finally, after 300 years, a young acorn fell at its base.</p>
+            <p>Kai slept for 20 hours straight. And when she woke up? She climbed higher than she'd ever climbed before.</p>
             
-            <p>"HELLO!" shouted the acorn. "When do I get big?"</p>
+            <p>"I can see EVERYTHING from up here!" she shouted.</p>
             
-            <p>The now-ancient tree smiled. "Oh, you've already started. But here's the secret: You don't GET big. You BECOME big. One day, one season, one year at a time. And it's slow. Painfully slow. Slower than you want. Slower than everyone else. But baby acorn? When you're ready—when you've done the work—people will rest in your shade for another 300 years. That's the tree game. Long, slow, and magnificent."</p>
+            <p>"That's what rest does," the wombat called up. "It gives you perspective."</p>
             
-            <p><em>Mom and Dad are crying now, Avi, because they needed this story too: In a world of overnight success and instant results, we're trying to grow you slowly. Deeply. With strong roots. And it's HARD to be patient. Hard to trust that slow growth is still growth. But we're not raising a mushroom. We're growing an oak. And oaks take time.</em></p>
+            <p><em>Your parents needed this story, Avi. We glorify "hustle" and "grind" and "I'll sleep when I'm dead." But we're learning: Rest isn't laziness. It's maintenance. It's how you refuel so you can keep going. We're going to teach you to work hard AND rest well. Because the goal isn't to burn out before you're 30. The goal is to last. And lasting requires naps. Lots and lots of naps.</em></p>
         `
     },
     {
-        id: 19,
+        id: 33,
+        pillar: "Listening",
+        icon: "🐇",
+        title: "The Rabbit With the Giant Ears",
+        text: `
+            <p>Riley the rabbit had ENORMOUS ears. Like, comically large. Like, "people-laughed-when-they-saw-them" large.</p>
+            
+            <p>"Why are your ears so BIG?" the other animals teased.</p>
+            
+            <p>"I don't know," Riley said sadly. "I wish they were smaller."</p>
+            
+            <p>Riley tried everything to hide them. Hats. Headbands. Once, she tried taping them down (don't try this at home). But nothing worked. Her ears were just... BIG.</p>
+            
+            <p>One day, a group of animals were having a heated argument. Everyone was talking. Nobody was listening. It got louder and louder until it was just noise.</p>
+            
+            <p>Suddenly, Riley's ears perked up. She heard something beneath the noise. Something quiet.</p>
+            
+            <p>"Wait," Riley said. "Stop talking for a second."</p>
+            
+            <p>Everyone stopped (mostly from shock that quiet Riley spoke up).</p>
+            
+            <p>"Mouse," Riley said, turning to the smallest animal there, "you've been trying to say something for ten minutes. What is it?"</p>
+            
+            <p>The mouse looked amazed. "You... you heard me?"</p>
+            
+            <p>"Of course. You said 'I have an idea' seven times. But nobody was listening. So... what's your idea?"</p>
+            
+            <p>The mouse shared her idea. It was brilliant. It solved everything. The argument ended.</p>
+            
+            <p>Afterward, the fox approached Riley. "How did you hear the mouse? It was SO loud in there."</p>
+            
+            <p>"My ears," Riley said, touching them self-consciously. "They pick up everything. Even the quiet stuff."</p>
+            
+            <p>"That's... actually amazing. You heard what none of us could. Your 'weird' ears just saved the day."</p>
+            
+            <p>Riley never tried to hide her ears again. She became known as the animal who actually LISTENED—not just waited for her turn to talk, but truly heard what others were saying. Even (especially) the quiet ones.</p>
+            
+            <p>"The secret to my big ears," Riley would say, "isn't that I hear more. It's that I listen more. Anyone can hear. Listening is different. Listening is a choice."</p>
+            
+            <p><em>Avi, your parents talk too much sometimes. We're learning to listen more—to each other, to friends, to the quiet voices that get drowned out. Here's what we've discovered: Most people don't want advice. They want to be heard. And sometimes, the most powerful thing you can do is close your mouth, open your ears, and let someone know they matter enough to be listened to. Really listened to. That's a superpower no one talks about.</em></p>
+        `
+    },
+    {
+        id: 34,
+        pillar: "Acceptance",
+        icon: "🐊",
+        title: "The Crocodile Who Smiled Wrong",
+        text: `
+            <p>Connor the crocodile had a problem: every time he tried to smile, he terrified everyone.</p>
+            
+            <p>"AHHHHH!" the fish would scream. "HE'S GOING TO EAT US!"</p>
+            
+            <p>"No no no!" Connor would say. "I'm just trying to be FRIENDLY!"</p>
+            
+            <p>But crocodile smiles look exactly like crocodile "I'm about to eat you" faces. It's a design flaw. Connor couldn't help it.</p>
+            
+            <p>He tried smiling smaller. Still scary. He tried smiling with his mouth closed. Looked like he was plotting something. He even tried just... not smiling. But then he seemed mean.</p>
+            
+            <p>"I can't win," Connor sighed to an old hippo. "No matter what I do, everyone thinks I'm dangerous."</p>
+            
+            <p>"Are you dangerous?" the hippo asked.</p>
+            
+            <p>"No! I mean, I COULD be. I have the teeth for it. But I don't WANT to be. I just want friends."</p>
+            
+            <p>The hippo nodded. "Here's the thing, Connor. You can't control how people SEE you. You can only control how you ACT. Some will always be scared. That's not your fault—that's their instinct. But some will take the time to know the real you. Those are your people."</p>
+            
+            <p>"But how do I find them if everyone runs away?"</p>
+            
+            <p>"Keep being gentle. Keep being kind. Keep smiling, even if it's scary. The right ones will see past the teeth. The wrong ones? They weren't your friends anyway."</p>
+            
+            <p>Connor kept trying. Most animals still ran. But slowly, a few stayed. A brave turtle. A curious bird. A fish who was "pretty sure" she could outswim him if needed.</p>
+            
+            <p>"Your smile is actually kind of cute," the turtle said one day. "Once you get used to it."</p>
+            
+            <p>"Really?"</p>
+            
+            <p>"Yeah. It's like... scary-cute. Cute-scary? Either way, I like it. It's very YOU."</p>
+            
+            <p>Connor smiled his big, toothy, terrifying smile. And for the first time, it didn't scare anyone away.</p>
+            
+            <p><em>Here's what we've learned, Avi: You can't control how the world sees you. Some people will judge you on their first impression and never look deeper. That's not your fault. All you can control is being authentically, consistently you. The right people will see past whatever makes you "scary" or "different" or "weird." They'll see your heart. And they'll stay. Those are the ones who matter.</em></p>
+        `
+    },
+    {
+        id: 35,
+        pillar: "Teamwork",
+        icon: "🐜",
+        title: "The Ant Who Did Everything Alone",
+        text: `
+            <p>Andrea the ant was STRONG. Like, really strong. She could carry 50 times her body weight. While other ants worked in teams, Andrea worked alone.</p>
+            
+            <p>"I don't need help," she'd say, struggling under a huge crumb. "I've got this."</p>
+            
+            <p>"But Andrea, it would be easier if we—"</p>
+            
+            <p>"I. SAID. I'VE. GOT. THIS."</p>
+            
+            <p>And she did! She carried that crumb all by herself. It took her three hours, and she nearly broke her back, but she DID it. Alone. Like a CHAMPION.</p>
+            
+            <p>One day, Andrea found the biggest crumb anyone had ever seen. It was glorious. It could feed the whole colony for a week. And Andrea wanted to carry it herself.</p>
+            
+            <p>"Andrea, that's insane. That crumb is 100 times your size."</p>
+            
+            <p>"And I can carry 50 times my weight. So... math... carry the one... I've got this."</p>
+            
+            <p>She tried. Oh, how she tried. She pushed. She pulled. She did that thing where you rock something back and forth hoping momentum helps (it didn't). After two hours, she'd moved the crumb exactly zero inches.</p>
+            
+            <p>Another ant sat down next to her. "Why won't you let us help?"</p>
+            
+            <p>"Because..." Andrea suddenly felt very small. "Because if I need help, that means I'm weak. And I can't be weak."</p>
+            
+            <p>"Oh, Andrea." The other ant put a tiny arm around her. "Needing help isn't weakness. It's just... being real. No one can do everything alone. Not even the strongest ant. Asking for help isn't admitting you're weak. It's admitting you're not STUPID."</p>
+            
+            <p>Andrea laughed despite herself. "So... smart ants ask for help?"</p>
+            
+            <p>"The smartest. Watch." The ant called over fifty friends. Together, in ten minutes, they moved the giant crumb to the colony.</p>
+            
+            <p>"That was... actually easier," Andrea admitted.</p>
+            
+            <p>"That's the secret. Some things are MEANT to be carried together. The question isn't 'Am I strong enough to carry this alone?' The question is 'Why would I carry it alone when I don't have to?'"</p>
+            
+            <p><em>Avi, your parents are like Andrea. We think asking for help means we're failing. We carry things alone until we nearly break. But we're learning: It's not weakness to need support. It's wisdom to accept it. The strongest people aren't the ones who never need help. They're the ones who are brave enough to ask for it. We're going to ask for help raising you. From family, from friends, from each other. Because you're the biggest, most beautiful crumb we've ever found. And you deserve to be carried by a village.</em></p>
+        `
+    },
+    {
+        id: 36,
         pillar: "Gratitude",
-        icon: "🦆",
-        title: "The Duck Who Forgot to Complain",
+        icon: "🦃",
+        title: "The Turkey Who Counted Blessings (To Stay Off the Table)",
         text: `
-            <p>Daphne the duck complained about EVERYTHING.</p>
+            <p>It was November, and Theodore the turkey was STRESSED.</p>
             
-            <p><em>"This pond is too cold. No, wait, too warm. These fish are too fishy. Why is the sky so sky-like? And don't even get me started on wet feathers. I'm a DUCK and I hate wet feathers!"</em></p>
+            <p>"Do you KNOW what happens to turkeys in November?!" he gobbled frantically. "We get EATEN! Stuffed with BREAD! Served with CRANBERRIES!"</p>
             
-            <p>One day, a wizard frog hopped by. (Yes, a wizard frog. They exist. Keep up.)</p>
+            <p>"That does sound bad," agreed a nearby chicken.</p>
             
-            <p>"You complain a lot," said the wizard frog.</p>
+            <p>"I have to hide. I have to run. I have to—" Theodore stopped. "Wait. What if I tried something crazy?"</p>
             
-            <p>"Well EXCUSE ME for having STANDARDS," huffed Daphne.</p>
+            <p>"Crazy how?"</p>
             
-            <p>"I'll make you a deal," said the frog. "For one day—just one day—you can't complain. Instead, every time you want to complain, you have to say one thing you're grateful for."</p>
+            <p>"What if, instead of panicking, I just... appreciated every day I HAVE? What if I treated every day like it might be my last—because honestly, in November, it might be—and just... noticed the good stuff?"</p>
             
-            <p>"That sounds HORRIBLE. I hate it already."</p>
+            <p>"That sounds insane. Also beautiful. Also insane."</p>
             
-            <p>"Perfect!" The frog waved his wand. "The spell is cast. See you tomorrow!"</p>
+            <p>Theodore tried it. Day one: "I'm grateful for these feathers. They're warm." Day two: "I'm grateful for this corn. It's delicious." Day three: "I'm grateful for Henrietta the hen. She laughs at my jokes."</p>
             
-            <p>Daphne woke up cold. She opened her mouth to complain but the spell caught her tongue. Instead, she heard herself say: "I'm... grateful... for... feathers? I guess? Because I'd be colder without them?"</p>
+            <p>Something weird happened. The more Theodore focused on gratitude, the less scared he felt. Not because the danger was gone—November was STILL happening—but because he was filling his brain with good things instead of scary things.</p>
             
-            <p>She tried to complain about breakfast. Nope. "I'm grateful this pond HAS fish, even if they're too fishy."</p>
+            <p>"I might get eaten tomorrow," Theodore said one day. "But today? Today I saw a beautiful sunset. Today a butterfly landed on my beak. Today I'm alive and surrounded by friends. If this is my last day, it was a GOOD one."</p>
             
-            <p>She tried to complain about the rain. "I'm grateful my feathers are waterproof... which I literally JUST COMPLAINED ABOUT THIS MORNING. This is confusing."</p>
+            <p>Spoiler alert: Theodore did NOT get eaten. The farmer's daughter decided to go vegetarian that year (thank you, internet). But Theodore didn't know that would happen. He just chose gratitude anyway.</p>
             
-            <p>By afternoon, something weird was happening. She started noticing things:</p>
+            <p>"The fear never fully goes away," Theodore told the other turkeys afterward. "But gratitude is louder if you practice it enough. When your brain is full of good things, there's less room for worry."</p>
             
-            <p>The way sunlight hit the water. <em>(Grateful for light.)</em><br>
-            Her friend Dennis who always listened to her complain. <em>(Grateful for Dennis... I guess.)</em><br>
-            The fact that she could FLY. <em>(Okay, fine, flying is pretty cool.)</em></p>
+            <p>"That's beautiful," said a young turkey. "Also, I'm glad you didn't die."</p>
             
-            <p>By evening, she couldn't WAIT to find things to be grateful for. It became a game!</p>
+            <p>"Me too," Theodore laughed. "That's going on tomorrow's gratitude list."</p>
             
-            <p>The next morning, the wizard frog returned. "Spell's broken. You can complain again!"</p>
-            
-            <p>Daphne thought about it. "Can I... keep doing the gratitude thing? I think I liked it better."</p>
-            
-            <p>"Really?" The frog was shocked.</p>
-            
-            <p>"Yeah. Complaining made everything feel heavy. Gratitude made everything feel lighter. I'm still going to complain SOMETIMES—"</p>
-            
-            <p>"Of course."</p>
-            
-            <p>"—but now I know complaining is a CHOICE. And gratitude is also a choice. And one of those choices made me happier."</p>
-            
-            <p>The wizard frog smiled. "That's the secret they don't tell you: Gratitude doesn't change what you HAVE. It changes what you SEE."</p>
-            
-            <p><em>Your parents laugh because we're ALL Daphne sometimes, Avi. We complain about the water temperature, the wet feathers, the fishy fish. And then we remember: We HAVE water. We HAVE feathers. We HAVE fish. We HAVE you. And suddenly everything gets lighter.</em></p>
-            
-            <p>And Daphne? She still complained. But she also said "thank you" a LOT more. And that made all the difference.</p>
+            <p><em>We laugh, but this one hits, Avi. Your parents have anxiety. We worry about the future, about money, about being good enough, about everything. But we're learning that gratitude is the antidote. Not toxic positivity—we're not pretending bad things don't exist. Just... choosing to ALSO notice the good. Every day. Out loud. On purpose. It doesn't make the hard stuff disappear. But it makes us remember that life is more than just the hard stuff. And that's everything.</em></p>
         `
     },
     {
-        id: 20,
-        pillar: "Perseverance",
-        icon: "🐢",
-        title: "The Turtle's Terrible, Horrible, No Good Race",
+        id: 37,
+        pillar: "Communication",
+        icon: "🦜",
+        title: "The Lovebirds Who Never Talked",
         text: `
-            <p>Everyone knows the story about the turtle who beat the rabbit in a race. But what they DON'T tell you is what happened the next day.</p>
+            <p>Leo and Luna were lovebirds who, ironically, never talked to each other about anything important.</p>
             
-            <p>The turtle (his name was Trevor) woke up EXHAUSTED. "I'm never racing again," he groaned. "That was the hardest thing I've ever done."</p>
+            <p>"How was your day?" / "Fine."<br>
+            "What's wrong?" / "Nothing."<br>
+            "Are you happy?" / "Sure."</p>
             
-            <p>But then a poster appeared: SECOND ANNUAL RACE - TOMORROW!</p>
+            <p>They loved each other. That wasn't the problem. The problem was, they'd forgotten how to actually COMMUNICATE. Real feelings got stuffed down. Real needs got ignored. Real problems got swept under the nest.</p>
             
-            <p>"Oh no," said Trevor.</p>
+            <p>One day, Luna was quietly crying. Leo noticed.</p>
             
-            <p>All the animals gathered. "You gonna win again?" they asked.</p>
+            <p>"What's wrong?"</p>
             
-            <p>"Probably not," Trevor said honestly. "Yesterday I got LUCKY. The rabbit took a nap. Today he'll probably actually TRY."</p>
+            <p>"Nothing."</p>
             
-            <p>"So why race at all?" asked a chipmunk.</p>
+            <p>Leo almost accepted that. Almost walked away. But something stopped him. "Luna... that's not true, is it? Something IS wrong. And I want to know. For real this time."</p>
             
-            <p>Trevor thought about this. "Because... last time, I learned something. I learned I could do hard things. Even when I'm slow. Even when everyone's watching. And I think I need to learn if I can do it AGAIN. When it's harder. When luck isn't helping."</p>
+            <p>Luna looked up, surprised. "You... you actually want to know?"</p>
             
-            <p>The race started. The rabbit ZOOMED ahead. Trevor plodded along at his usual turtle pace.</p>
+            <p>"I'm your partner. Of course I want to know."</p>
             
-            <p>But this time? The rabbit didn't nap. The rabbit RAN THE WHOLE WAY.</p>
+            <p>And Luna told him. Everything. How she felt lonely sometimes. How she wished they talked more. How she loved him but missed CONNECTING with him.</p>
             
-            <p>Trevor lost. By a LOT.</p>
+            <p>Leo listened. Really listened. And then he said something vulnerable: "I feel that way too. I just... I didn't know how to say it. I thought if I pretended everything was fine, it would BE fine."</p>
             
-            <p>Everyone felt bad for him. "It's okay, Trevor," they said. "You tried."</p>
+            <p>"That doesn't work, does it?"</p>
             
-            <p>But Trevor was SMILING.</p>
+            <p>"No. It really doesn't."</p>
             
-            <p>"Why are you happy?" asked the rabbit, confused. "You lost."</p>
+            <p>They made a new rule: Every night, before sleeping, they'd share one real thing. Not "fine." Not "nothing." One REAL thing—a fear, a hope, a feeling, a need.</p>
             
-            <p>"Yeah," said Trevor. "But here's the thing: Yesterday, I won because you made a mistake. Today, you ran your best race and I STILL finished. I didn't quit. I didn't hide. I kept going even when I knew I'd lose. And that? That's harder than winning."</p>
+            <p>At first it was awkward. They weren't used to being honest. But slowly, it became the best part of their day. The moment where they actually SAW each other.</p>
             
-            <p>The rabbit sat down next to Trevor, exhausted. "You know what? You're right. It's easy to run when you think you'll win. It's hard to keep running when you know you won't."</p>
+            <p>"I love you," Leo said one night.</p>
             
-            <p>"Exactly!" said Trevor. "So I'm actually PROUDER of today than yesterday. Because yesterday tested my speed. Today tested my character."</p>
+            <p>"I know," Luna said. "But more importantly—I FEEL loved now. Because you tell me what's real. And that's different. That's better."</p>
             
-            <p>From then on, Trevor raced every year. He never won again. And he didn't care.</p>
-            
-            <p>Because he'd learned the secret: Perseverance isn't about winning. It's about showing up when it's hard. Continuing when it's easier to quit. Finishing even when no one's watching.</p>
-            
-            <p><em>Here's what keeps your parents going, Avi: We'll have hard days. Days where we feel slow. Days where we "lose." Days where everyone else seems to have it figured out. But we'll keep showing up. For you. For each other. For ourselves. Not because we'll always win. But because showing up—especially when it's hard—is how you build a life worth living.</em></p>
-            
-            <p>And Trevor? He's still racing. Dead last, every single time. Smiling the whole way.</p>
+            <p><em>This one's for us, Avi. Your parents sometimes do the "fine" and "nothing" thing too. We're learning that relationships don't die from big explosions—they die from slow silence. From all the things left unsaid. We're going to model something different for you: honest, vulnerable, sometimes-messy communication. Because "I love you" means nothing if you can't also say "I need you" and "I'm scared" and "I messed up." Real love speaks. Real love listens. Real love risks being REAL.</em></p>
         `
     },
     {
-        id: 21,
-        pillar: "Joy",
-        icon: "🦘",
-        title: "The Kangaroo's Bounce",
+        id: 38,
+        pillar: "Present Moment",
+        icon: "🦋",
+        title: "The Butterfly Who Missed Her Flight",
         text: `
-            <p>Kelly the kangaroo had a problem: she couldn't stop bouncing.</p>
+            <p>Bella the butterfly had ONE JOB: fly around, look pretty, live in the moment. But Bella couldn't stop thinking about the future.</p>
             
-            <p><em>Boing! Boing! BOING!</em></p>
+            <p>"What if there's a storm tomorrow? What if the flowers die? What if I get old and my wings get wrinkly? What if—"</p>
             
-            <p>"Kelly," said her mother, "you need to calm down."</p>
+            <p>"BELLA!" her friend interrupted. "You're sitting on the most beautiful flower in the meadow. And you're not even looking at it."</p>
             
-            <p><em>BOING!</em> "But I'm HAPPY!" <em>BOING!</em></p>
+            <p>Bella looked down. Oh. Wow. It WAS beautiful. She hadn't noticed.</p>
             
-            <p>"Yes, but you're bouncing on everyone's nerves."</p>
+            <p>"I was thinking about tomorrow."</p>
             
-            <p>The problem was: Kelly found joy in EVERYTHING. A good stick? <em>BOING!</em> A pretty cloud? <em>BOING!</em> The fact that grass exists? <em>BOING BOING BOING!</em></p>
+            <p>"But tomorrow doesn't exist yet. Only right now exists. And right now is REALLY pretty."</p>
             
-            <p>The other animals held a meeting. "Kelly's joy is EXHAUSTING," they said. "Can someone teach her to be more... moderate?"</p>
+            <p>Bella tried to focus on the present. It was HARD. Her brain kept jumping forward. <em>But what about—NO. Stay here. Look at the flower. Smell the flower. Feel the sun. Be HERE.</em></p>
             
-            <p>A very serious koala volunteered. "I will show her how to be calm."</p>
+            <p>She practiced. Every time her mind wandered to tomorrow, she gently brought it back to now. The color of the petals. The warmth of the air. The sound of her own wings.</p>
             
-            <p>The koala took Kelly to his eucalyptus tree. "Lesson one," he said slowly, "is to sit very still and think serious thoughts."</p>
+            <p>"This is... actually nice," Bella admitted.</p>
             
-            <p>Kelly tried. She really did. But then a butterfly flew by and she BOUNCED after it.</p>
+            <p>"The present usually is, if you pay attention to it."</p>
             
-            <p>"Kelly!" the koala sighed. "You're supposed to be CALM!"</p>
+            <p>Days passed. Bella got better at staying present. And something amazing happened: she started enjoying her life instead of just worrying about it. She noticed things she'd missed for years. Beauty everywhere. Small miracles every second.</p>
             
-            <p>"But I SAW A BUTTERFLY!" Kelly squealed. "It was ORANGE! And it FLEW! How is that not amazing?!"</p>
+            <p>"I wasted so much time in the future," Bella said sadly one day.</p>
             
-            <p>The koala realized this wasn't working. "Maybe you're just built differently."</p>
+            <p>"Don't do that," her friend said. "Don't use the present to beat yourself up about the past. That's just another way to miss NOW."</p>
             
-            <p>"What do you mean?"</p>
+            <p>Bella laughed. "You're right. Okay. Right now. This moment. This flower. This friend. This life." She spread her wings in the sunshine. "Right now is actually perfect."</p>
             
-            <p>"Well," said the koala, "I'm built for calm. You're built for bounce. Neither is better. They're just different. And the world needs both."</p>
+            <p>"It usually is," her friend smiled. "When we stop missing it."</p>
             
-            <p>"Really?" Kelly stopped bouncing (for a second). "You're not annoyed by me?"</p>
-            
-            <p>"Honestly? Sometimes, yes. Your energy is A LOT." The koala smiled. "But you know what? Yesterday I saw you bouncing in the rain, and you were SO happy that it made ME smile. I hadn't smiled in months. Your joy is contagious. And sometimes—not always, but sometimes—contagious joy is exactly what the world needs."</p>
-            
-            <p>Kelly thought about this. "So I don't have to stop bouncing?"</p>
-            
-            <p>"Nope. But maybe learn to bounce with awareness. Notice when others need quiet. Notice when they need your bounce. Joy is a gift—but like all gifts, timing matters."</p>
-            
-            <p>From then on, Kelly still bounced. But she learned to bounce THOUGHTFULLY. Morning bounce? Full volume! Late night bounce? Quieter. Friend having a bad day? BRING THE BOUNCE. Friend needing silence? Sit still (while bouncing INTERNALLY).</p>
-            
-            <p><em>Mom and Dad are smiling because they hope you're Kelly, Avi. We hope you find joy in everything—butterflies and grass and the fact that oxygen exists. But we also hope you learn what Kelly learned: Joy isn't about being happy ALL the time. It's about noticing the things worth bouncing about. And there are SO MANY things worth bouncing about.</em></p>
-            
-            <p>And Kelly? She's still bouncing. Sometimes too much. Sometimes just right. But always, always authentic. <em>BOING!</em></p>
+            <p><em>Oh, Avi. Your parents are TERRIBLE at this. We're always somewhere else—worrying about work, planning the future, replaying the past. We miss so many flowers. So many moments. So many NOW. Here's what we're trying to learn: The past is gone. The future isn't real yet. The only place life actually happens is right now. And right now, we have you. Growing inside your mom. Preparing to join us. We don't want to miss THIS—the before. The waiting. The now. It's all we really have.</em></p>
         `
     },
     {
-        id: 22,
-        pillar: "Wisdom",
-        icon: "🦫",
-        title: "The Beaver's Dam Good Advice",
+        id: 39,
+        pillar: "Growing Up",
+        icon: "🐣",
+        title: "The Chick Who Didn't Want to Leave the Egg",
         text: `
-            <p>Bernie the beaver was the best dam builder in the forest. (Get it? Dam? Hehe.)</p>
+            <p>Inside an egg, a little chick named Charlie was having a crisis.</p>
             
-            <p>But Bernie had a secret: he'd failed at dam-building seventeen times before he got good at it.</p>
+            <p>"I don't want to come out," Charlie said.</p>
             
-            <p>One day, a young beaver named Betty asked: "Bernie, how do you build such perfect dams?"</p>
+            <p>"But Charlie," his mother's muffled voice called from outside, "the world is wonderful! There's sunshine! And worms! And SO much space!"</p>
             
-            <p>"Oh, mine aren't perfect," Bernie laughed. "See that stick there? It's in the wrong place. That mud patch? Too thin. That rock? Completely unnecessary but I like how it looks."</p>
+            <p>"But in here I have everything I need. It's warm. It's safe. I know exactly where everything is. Out there? Out there is UNKNOWN."</p>
             
-            <p>"But your dams WORK!" said Betty. "Mine keep falling apart!"</p>
+            <p>His mother sighed. "You can't stay in there forever, love."</p>
             
-            <p>"How many have you built?"</p>
+            <p>"Watch me."</p>
             
-            <p>"Three."</p>
+            <p>Days passed. Charlie stayed stubbornly in his shell. But here's the thing about eggs: they're not designed for long-term living. It started getting cramped. Then uncomfortable. Then actually painful.</p>
             
-            <p>"Ah," said Bernie. "There's your first problem. You've only built three terrible dams. I've built seventeen terrible dams. I'm way ahead of you in the terrible-dam department."</p>
+            <p>"Charlie, you're outgrowing the egg."</p>
             
-            <p>Betty was confused. "But... shouldn't I be trying to build GOOD dams?"</p>
+            <p>"I'll make it work."</p>
             
-            <p>"Nope!" Bernie grinned. "You should be trying to build MORE dams. Good dams come from building lots of bad dams. Wisdom comes from collecting mistakes like river stones."</p>
+            <p>"You CAN'T. That's not how growth works. Growth means leaving things behind. Things that used to fit but don't anymore. The egg was perfect—for a while. But you're not an egg-dweller anymore. You're ready to be a chick."</p>
             
-            <p>"That doesn't make sense."</p>
+            <p>Charlie felt a crack forming. He hadn't made it. His own growth had.</p>
             
-            <p>"Okay, watch." Bernie started building a dam in front of Betty. He placed a stick. The current knocked it away. "Mistake one: Wrong angle. Now I know." He tried again with a different angle. Better! He added mud. Too thin—it washed away. "Mistake two: Wrong mud ratio. Now I know."</p>
+            <p>"Mom? I'm scared."</p>
             
-            <p>Betty watched Bernie make mistake after mistake, each one teaching him something new, until finally the dam held.</p>
+            <p>"I know, baby. But I'm right here. And the thing about leaving the egg? You don't go from safe to unsafe. You go from small-safe to big-safe. More room. More possibilities. More life. It's not LESS safe out here. It's differently safe."</p>
             
-            <p>"See?" said Bernie. "Every mistake is information. The goal isn't to avoid mistakes. The goal is to make NEW mistakes instead of the SAME mistakes."</p>
+            <p>Charlie pushed. The shell cracked. Light flooded in—bright, overwhelming, WONDERFUL.</p>
             
-            <p>"So wisdom is just... fancy mistake collection?"</p>
+            <p>He tumbled out, wet and wobbly and blinking at everything.</p>
             
-            <p>"Exactly! And here's the secret nobody tells you: The beavers who look wise? We just made our mistakes earlier. You're making your mistakes NOW, which means in 10 years, YOU'LL be the wise one teaching some young beaver about your seventeen terrible dams."</p>
+            <p>"Oh," he breathed. "It's so BIG."</p>
             
-            <p>Betty built another dam. It fell apart. But this time, she smiled. "Mistake four! I'm building my wisdom!"</p>
+            <p>"And you're a part of it now," his mom said, wrapping a wing around him. "Welcome to the world, Charlie. It was waiting for you."</p>
             
-            <p>Years later, Betty became known as the wisest beaver in the forest. Young beavers would ask: "How do you know so much?"</p>
+            <p>Charlie looked back at his broken shell. It seemed so small now. So limiting. He couldn't believe he'd wanted to stay inside.</p>
             
-            <p>And Betty would say: "Oh, I don't know MUCH. I just know what doesn't work. I've failed at building dams forty-three different ways. That's not wisdom—that's just a really good mistake collection."</p>
+            <p>"I guess growing up means outgrowing things," Charlie said. "Even things you love. Even things that kept you safe."</p>
             
-            <p><em>Your parents want you to hear this, Avi: We're going to let you fail. A lot. Not because we don't love you, but because we do. Because wisdom comes from falling down and getting back up. From building terrible dams and learning why they fell. From making mistakes and collecting them like treasures. The goal isn't to raise a child who never messes up. It's to raise an adult who knows how to learn from mess-ups. That's wisdom.</em></p>
-        `
-    },
-    {
-        id: 23,
-        pillar: "Hope",
-        icon: "🐛",
-        title: "The Firefly Who Lost Her Light",
-        text: `
-            <p>Fiona the firefly woke up one morning and her light was gone.</p>
+            <p>"That's exactly what it means," his mom said. "And it never stops. You'll outgrow this nest too, someday. And that's okay. That's what living IS."</p>
             
-            <p>She tried everything: Deep breaths. Positive thinking. Standing on one leg. Nothing worked. Her tail stayed dark.</p>
-            
-            <p>"This is it," she said dramatically. "I'm broken forever. I'll never glow again. I might as well be a regular fly."</p>
-            
-            <p>"Oh, stop being dramatic," said her grandmother, who'd lived through 87 summers and had seen EVERYTHING.</p>
-            
-            <p>"But Grandma! What if it never comes back?"</p>
-            
-            <p>"Then you'll live in the dark for a while," Grandma said simply. "And then one day, when you're not paying attention, it'll flicker back."</p>
-            
-            <p>"But how do you KNOW?"</p>
-            
-            <p>"Because I've lost my light seven times. Once for a whole month. And every single time, I thought 'THIS time it's gone forever.' And every single time, I was wrong."</p>
-            
-            <p>Fiona didn't believe her. Days passed. Her light stayed dark. Other fireflies would light up the night, and Fiona would sit in the shadows, feeling sorry for herself.</p>
-            
-            <p>Until one night, a young firefly named Fred couldn't find his way home. He was crying in the dark.</p>
-            
-            <p>Fiona sighed. "I can't help. My light's out."</p>
-            
-            <p>"I don't need your light," Fred sniffled. "I just need someone to sit with me in the dark until morning."</p>
-            
-            <p>So Fiona sat with Fred. They talked about being scared. About feeling broken. About worrying the darkness would last forever.</p>
-            
-            <p>"But it won't," said Fiona, surprising herself. "It never does. Darkness is just light taking a break."</p>
-            
-            <p>"How do you know?"</p>
-            
-            <p>"Because dawn always comes. Every single morning, for billions of years, the sun has come back. Not because it HAS to. But because that's what light DOES. It comes back."</p>
-            
-            <p>And as Fiona said those words—about light always returning—her tail gave a tiny flicker.</p>
-            
-            <p>Then another.</p>
-            
-            <p>Then a glow.</p>
-            
-            <p>"YOUR LIGHT!" Fred gasped. "It's back!"</p>
-            
-            <p>Fiona looked at her glowing tail, tears in her eyes. "It came back when I stopped waiting for it. When I was just... helping you."</p>
-            
-            <p>Grandma flew over. "That's the secret of hope, little ones. It's not about believing your light will come back. It's about being kind in the darkness anyway. About sitting with others who are scared. About trusting that light is just resting, not gone. Hope isn't naive optimism. It's stubborn faith in the eventual return of dawn."</p>
-            
-            <p><em>Mom and Dad need to hear this too, Avi: There will be dark times. Times when we feel like we've lost our light. When we're exhausted, overwhelmed, scared. Times when the glow fades. But we're going to sit with each other in those dark times. And we're going to trust—even when it's hard—that the light is just resting. That dawn is already on its way. And that our job isn't to force the light back. It's to be kind in the darkness until it returns on its own. And it always does. It always, always does.</em></p>
-        `
-    },
-    {
-        id: 24,
-        pillar: "Belonging",
-        icon: "🦩",
-        title: "The Flamingo Who Wasn't Pink",
-        text: `
-            <p>Francine the flamingo had a problem: she wasn't pink. She was white.</p>
-            
-            <p>All the other flamingos were perfectly pink. But Francine? White as snow. White as clouds. White as "this is embarrassing."</p>
-            
-            <p>"It's the shrimp," explained her mother. "Pink flamingos eat a lot of shrimp. The shrimp make us pink."</p>
-            
-            <p>"But I DO eat shrimp!" Francine protested.</p>
-            
-            <p>"I know, dear. Your body just... processes color differently."</p>
-            
-            <p>The other flamingos tried to be nice. But Francine heard the whispers: <em>"There's the white one." "She doesn't match." "Is she even a real flamingo?"</em></p>
-            
-            <p>One day, Francine decided: "I'm leaving. I'll find birds who look like me."</p>
-            
-            <p>She flew to a lake full of white swans. "Hello, fellow white birds!"</p>
-            
-            <p>The swans looked at her long legs and curved neck. "Um... you're not a swan."</p>
-            
-            <p>"But I'm WHITE like you!"</p>
-            
-            <p>"Being the same color doesn't make us the same," said the wisest swan. "You stand on one leg. We don't. You eat shrimp. We eat plants. You're flamingo-shaped. We're swan-shaped. You're trying to fit in based on color, but belonging is about more than matching."</p>
-            
-            <p>Francine flew away, confused and sad. She stopped at a pond to rest.</p>
-            
-            <p>A frog hopped over. "You look lost."</p>
-            
-            <p>"I don't belong anywhere," Francine sighed. "I'm not pink enough for flamingos. Not swan enough for swans. I'm just... wrong everywhere."</p>
-            
-            <p>The frog thought about this. "Can I tell you something? I used to be a tadpole. I had a tail and gills and I lived underwater. Then I grew legs and lungs and had to leave the water. For a while, I wasn't ANYTHING. Not fish, not frog, just... in between. It was the loneliest time of my life."</p>
-            
-            <p>"What did you do?"</p>
-            
-            <p>"I stopped trying to fit into categories. I just became MORE myself. More frog-like every day. And you know what? Other frogs found me. Because they weren't looking for someone who matched them. They were looking for someone who was authentically THEMSELVES."</p>
-            
-            <p>Francine flew back to the flamingos. This time, instead of hiding her whiteness, she stood tall.</p>
-            
-            <p>"I know I'm different," she said. "I'm white. I'm always going to be white. But I'm also a flamingo. I stand on one leg. I love shrimp. I sleep with my head backward. I'm ALL the flamingo things except pink. And if that's not flamingo enough for you, then maybe I need to find flamingos who care more about heart than color."</p>
-            
-            <p>The oldest flamingo stepped forward. "You know what? That's the most flamingo thing I've ever heard. Real flamingos don't match perfectly. They just show up AS THEMSELVES and trust the flock will make room."</p>
-            <p>And they did.</p>
-            
-            <p><em>Here's the hard truth your parents are still learning, Avi: You won't belong everywhere. And that's okay. Some flocks will care too much about matching. Some will care more about being authentic. Your job isn't to turn pink for people who only see color. Your job is to be SO FULLY YOURSELF that you attract people who love you for exactly that. The right flock won't ask you to change. They'll just make room for one more beautiful, weird, perfectly-you flamingo. Even if you're white. Especially if you're white.</em></p>
+            <p><em>Avi, right now you're in your egg. It's warm and safe and perfect. But soon—very soon—you're going to crack through into a world that's bigger and brighter and more than you can imagine. We know you're probably comfortable in there. We know the unknown is scary. But we're right here. Right outside. Waiting. And we promise: the world is worth leaving the egg for. We can't wait to show you.</em></p>
         `
     }
 ];
 
 // Export for use in main app
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = storiesSet2;
+    module.exports = storiesSet3;
 }
-
-// Combine story sets based on selection
-let stories;
-if (ACTIVE_STORY_SET === 'set1') {
-    stories = storiesSet1;
-} else if (ACTIVE_STORY_SET === 'set2') {
-    stories = storiesSet2;
-} else {
-    // Both sets combined
-    stories = [...storiesSet1, ...storiesSet2];
-}
-
-// Make stories available globally
-window.stories = stories;
