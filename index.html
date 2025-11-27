@@ -3,87 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avi's Bedtime Stories</title>
+    <title>Avi's Bedtime Stories ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
 </head>
 <body>
-    <div class="stars"></div>
-    <div class="container">
-        <header>
-            <h1>Our Avi ✨</h1>
-            <p class="subtitle">A story just for you, with love from Mama and Papa</p>
-        </header>
-
-        <div class="music-player" id="musicPlayer">
-            <button id="playButton" class="play-btn">
-                <span class="play-icon">▶</span>
-                <span class="play-text">Begin Tonight's Story</span>
-            </button>
-            <div class="music-controls" id="musicControls" style="display: none;">
-                <button id="pausePlayButton" class="pause-play-btn">
-                    <span class="pause-icon">⏸</span>
-                </button>
-                <div class="volume-control" id="volumeControl">
-                    <label>Music Volume</label>
-                    <input type="range" id="volumeSlider" min="0" max="100" value="25">
-                    <span id="volumeValue">25%</span>
-                </div>
-            </div>
+    <!-- Ambient Background -->
+    <div class="ambient-bg">
+        <div class="stars-layer stars-1"></div>
+        <div class="stars-layer stars-2"></div>
+        <div class="stars-layer stars-3"></div>
+        <div class="shooting-star"></div>
+        <div class="moon"></div>
+        <div class="clouds">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
         </div>
-
-        <div class="story-reveal" id="storyReveal" style="display: none;">
-            <div class="pillar-card">
-                <div class="pillar-icon" id="pillarIcon">🌟</div>
-                <h2>Tonight's Story is About...</h2>
-                <h3 class="pillar-name" id="pillarName">Love</h3>
-                <button id="pickDifferentButton" class="pick-different-btn">Pick a Different Story</button>
-            </div>
-        </div>
-
-        <div class="story-container" id="storyContainer" style="display: none;">
-            <div class="story-header">
-                <button id="backButton" class="back-btn">← Choose Another Story</button>
-            </div>
-            <div class="story-content">
-                <h2 id="storyTitle">The Little Seed</h2>
-                <div id="storyText" class="story-text">
-                    <!-- Story content will be inserted here -->
-                </div>
-            </div>
-            <div class="story-footer">
-                <button id="favoriteButton" class="favorite-btn">♡ Save as Favorite</button>
-            </div>
-        </div>
-
-        <div class="progress-section" id="progressSection" style="display: none;">
-            <h3>Stories We've Shared</h3>
-            <div class="progress-grid" id="progressGrid">
-                <!-- Progress items will be inserted here -->
-            </div>
-        </div>
-
-        <div class="favorites-section" id="favoritesSection" style="display: none;">
-            <h3>Avi's Favorite Stories ♥</h3>
-            <div class="favorites-grid" id="favoritesGrid">
-                <!-- Favorite stories will be inserted here -->
-            </div>
-        </div>
-
-        <div class="browse-section" id="browseSection" style="display: none;">
-            <h3>Browse Stories by Theme</h3>
-            <div class="pillar-filter" id="pillarFilter">
-                <!-- Pillar buttons will be inserted here -->
-            </div>
-            <div class="browse-stories" id="browseStories">
-                <!-- Story cards will be inserted here -->
-            </div>
-        </div>
-
-        <audio id="backgroundMusic" loop>
-            <source src="music/cosas-magicas.mp3" type="audio/mpeg">
-        </audio>
     </div>
 
+    <!-- Main App Container -->
+    <div class="app-container">
+        
+        <!-- Navigation Bar -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-brand" id="navBrand">
+                <span class="nav-icon">🌙</span>
+                <span class="nav-title">Avi's Stories</span>
+            </div>
+            <div class="nav-controls">
+                <button class="nav-btn music-toggle" id="musicToggle" title="Toggle Music">
+                    <span class="music-icon" id="musicIcon">🎵</span>
+                    <span class="music-status" id="musicStatus">Off</span>
+                </button>
+                <div class="volume-wrapper" id="volumeWrapper">
+                    <input type="range" id="volumeSlider" min="0" max="100" value="25" class="volume-slider">
+                    <span class="volume-label" id="volumeLabel">25%</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Welcome Screen -->
+        <section class="screen welcome-screen active" id="welcomeScreen">
+            <div class="welcome-content">
+                <div class="welcome-header">
+                    <h1 class="main-title">
+                        <span class="title-line">Good Evening,</span>
+                        <span class="title-name">Avi</span>
+                        <span class="title-sparkle">✨</span>
+                    </h1>
+                    <p class="welcome-subtitle">A story just for you, with love from Dad</p>
+                </div>
+                
+                <div class="welcome-actions">
+                    <button class="primary-btn glow-btn" id="beginBtn">
+                        <span class="btn-icon">▶</span>
+                        <span class="btn-text">Begin Tonight's Story</span>
+                    </button>
+                    
+                    <div class="secondary-actions">
+                        <button class="secondary-btn" id="browseBtn">
+                            <span class="btn-icon">📚</span>
+                            <span class="btn-text">Browse All Stories</span>
+                        </button>
+                        <button class="secondary-btn" id="favoritesBtn">
+                            <span class="btn-icon">💝</span>
+                            <span class="btn-text">Favorites</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="stats-preview" id="statsPreview">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalStories">0</span>
+                        <span class="stat-label">Stories</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="storiesRead">0</span>
+                        <span class="stat-label">Read</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="favoriteCount">0</span>
+                        <span class="stat-label">Favorites</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Reveal Screen -->
+        <section class="screen reveal-screen" id="revealScreen">
+            <div class="reveal-content">
+                <div class="reveal-animation">
+                    <div class="reveal-glow"></div>
+                    <div class="reveal-icon" id="revealIcon">🌟</div>
+                </div>
+                <h2 class="reveal-label">Tonight's Story is About...</h2>
+                <h3 class="reveal-pillar" id="revealPillar">Love</h3>
+                <p class="reveal-title" id="revealTitle">The Moon and the Sun</p>
+                
+                <div class="reveal-actions">
+                    <button class="primary-btn" id="readStoryBtn">
+                        <span class="btn-icon">📖</span>
+                        <span class="btn-text">Read This Story</span>
+                    </button>
+                    <button class="ghost-btn" id="pickAnotherBtn">
+                        <span class="btn-icon">🔄</span>
+                        <span class="btn-text">Pick a Different Story</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Reading Screen -->
+        <section class="screen story-screen" id="storyScreen">
+            <div class="story-header">
+                <button class="back-btn" id="backToHomeBtn">
+                    <span>←</span>
+                    <span>Home</span>
+                </button>
+                <div class="story-meta">
+                    <span class="story-pillar-badge" id="storyPillarBadge">
+                        <span class="badge-icon">💝</span>
+                        <span class="badge-text">Love</span>
+                    </span>
+                </div>
+            </div>
+            
+            <article class="story-article">
+                <header class="story-title-section">
+                    <div class="story-icon-large" id="storyIconLarge">🌟</div>
+                    <h1 class="story-title" id="storyTitle">The Moon and the Sun</h1>
+                </header>
+                
+                <div class="story-body" id="storyBody">
+                    <!-- Story content inserted here -->
+                </div>
+            </article>
+            
+            <footer class="story-footer">
+                <div class="story-actions">
+                    <button class="action-btn favorite-action" id="favoriteBtn">
+                        <span class="action-icon" id="favoriteIcon">♡</span>
+                        <span class="action-text" id="favoriteText">Add to Favorites</span>
+                    </button>
+                    <button class="action-btn" id="nextStoryBtn">
+                        <span class="action-icon">→</span>
+                        <span class="action-text">Next Story</span>
+                    </button>
+                </div>
+                <div class="reading-complete" id="readingComplete">
+                    <span class="complete-icon">✓</span>
+                    <span class="complete-text">Story shared with Avi</span>
+                </div>
+            </footer>
+        </section>
+
+        <!-- Browse Stories Screen -->
+        <section class="screen browse-screen" id="browseScreen">
+            <div class="browse-header">
+                <button class="back-btn" id="backFromBrowseBtn">
+                    <span>←</span>
+                    <span>Home</span>
+                </button>
+                <h2 class="browse-title">Story Library</h2>
+            </div>
+            
+            <div class="browse-controls">
+                <div class="search-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search stories..." class="search-input">
+                </div>
+            </div>
+            
+            <div class="filter-tabs" id="filterTabs">
+                <button class="filter-tab active" data-filter="all">
+                    <span class="tab-icon">✨</span>
+                    <span class="tab-text">All</span>
+                    <span class="tab-count" id="allCount">0</span>
+                </button>
+                <button class="filter-tab" data-filter="unread">
+                    <span class="tab-icon">📖</span>
+                    <span class="tab-text">Unread</span>
+                    <span class="tab-count" id="unreadCount">0</span>
+                </button>
+                <button class="filter-tab" data-filter="favorites">
+                    <span class="tab-icon">💝</span>
+                    <span class="tab-text">Favorites</span>
+                    <span class="tab-count" id="favTabCount">0</span>
+                </button>
+            </div>
+
+            <div class="pillar-filters" id="pillarFilters">
+                <!-- Pillar filter buttons inserted dynamically -->
+            </div>
+            
+            <div class="stories-grid" id="storiesGrid">
+                <!-- Story cards inserted dynamically -->
+            </div>
+            
+            <div class="empty-state hidden" id="emptyBrowse">
+                <div class="empty-icon">🔍</div>
+                <p class="empty-text">No stories found</p>
+                <p class="empty-subtext">Try a different search or filter</p>
+            </div>
+        </section>
+
+        <!-- Favorites Screen -->
+        <section class="screen favorites-screen" id="favoritesScreen">
+            <div class="favorites-header">
+                <button class="back-btn" id="backFromFavoritesBtn">
+                    <span>←</span>
+                    <span>Home</span>
+                </button>
+                <h2 class="favorites-title">
+                    <span class="fav-icon">💝</span>
+                    Avi's Favorite Stories
+                </h2>
+            </div>
+            
+            <div class="favorites-grid" id="favoritesGrid">
+                <!-- Favorite cards inserted dynamically -->
+            </div>
+            
+            <div class="empty-state" id="emptyFavorites">
+                <div class="empty-icon">💫</div>
+                <p class="empty-text">No favorites yet!</p>
+                <p class="empty-subtext">Stories you love will appear here</p>
+                <button class="secondary-btn" id="browseFromEmptyBtn">
+                    <span class="btn-icon">📚</span>
+                    <span class="btn-text">Browse Stories</span>
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Dedication Modal -->
+    <div class="modal" id="dedicationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-icon">💌</span>
+                <h3>Tonight's Dedication</h3>
+            </div>
+            <textarea id="dedicationText" class="dedication-input" placeholder="Tonight's story is dedicated to..."></textarea>
+            <div class="modal-actions">
+                <button class="ghost-btn" id="skipDedicationBtn">Skip</button>
+                <button class="primary-btn" id="saveDedicationBtn">Save & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="music/cosas-magicas.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
     <script src="stories.js"></script>
     <script src="app.js"></script>
 </body>
