@@ -2,268 +2,181 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avi's Bedtime Stories ✨</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0b1026">
+    <title>Avi's Bedtime Stories</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
 </head>
 <body>
-    <!-- Ambient Background -->
-    <div class="ambient-bg">
-        <div class="stars-layer stars-1"></div>
-        <div class="stars-layer stars-2"></div>
-        <div class="stars-layer stars-3"></div>
-        <div class="shooting-star"></div>
+
+    <!-- Stars background (CSS-only, no JS overhead) -->
+    <div class="sky" aria-hidden="true">
+        <div class="stars stars--sm"></div>
+        <div class="stars stars--md"></div>
+        <div class="stars stars--lg"></div>
         <div class="moon"></div>
-        <div class="clouds">
-            <div class="cloud cloud-1"></div>
-            <div class="cloud cloud-2"></div>
-            <div class="cloud cloud-3"></div>
-        </div>
     </div>
 
-    <!-- Main App Container -->
-    <div class="app-container">
-        
-        <!-- Navigation Bar -->
-        <nav class="navbar" id="navbar">
-            <div class="nav-brand" id="navBrand">
-                <span class="nav-icon">🌙</span>
-                <span class="nav-title">Avi's Stories</span>
-            </div>
-            <div class="nav-controls">
-                <button class="nav-btn music-toggle" id="musicToggle" title="Toggle Music">
-                    <span class="music-icon" id="musicIcon">🎵</span>
-                    <span class="music-status" id="musicStatus">Off</span>
+    <!-- ═══ Top Bar ═══ -->
+    <header class="topbar" id="topbar">
+        <button class="topbar__home" id="navHome" aria-label="Home">
+            <span class="topbar__icon">🌙</span>
+            <span class="topbar__title">Avi's Stories</span>
+        </button>
+        <div class="topbar__music">
+            <button class="topbar__music-btn" id="musicToggle" aria-label="Toggle music">
+                <span id="musicIcon">🔇</span>
+            </button>
+            <input type="range" id="volumeSlider" class="topbar__vol" min="0" max="100" value="25" aria-label="Volume">
+        </div>
+    </header>
+
+    <!-- ═══ Screens ═══ -->
+    <main class="screens" id="screens">
+
+        <!-- WELCOME -->
+        <section class="screen screen--welcome is-active" id="scrWelcome">
+            <div class="welcome">
+                <h1 class="welcome__greeting">
+                    <span class="welcome__line">Good Evening,</span>
+                    <span class="welcome__name">Avi</span>
+                </h1>
+                <p class="welcome__sub">A story just for you, with love from Dad</p>
+
+                <button class="btn btn--primary btn--glow" id="btnBegin">
+                    <span>▶</span> Begin Tonight's Story
                 </button>
-                <div class="volume-wrapper" id="volumeWrapper">
-                    <input type="range" id="volumeSlider" min="0" max="100" value="25" class="volume-slider">
-                    <span class="volume-label" id="volumeLabel">25%</span>
-                </div>
-            </div>
-        </nav>
 
-        <!-- Welcome Screen -->
-        <section class="screen welcome-screen active" id="welcomeScreen">
-            <div class="welcome-content">
-                <div class="welcome-header">
-                    <h1 class="main-title">
-                        <span class="title-line">Good Evening,</span>
-                        <span class="title-name">Avi</span>
-                        <span class="title-sparkle">✨</span>
-                    </h1>
-                    <p class="welcome-subtitle">A story just for you, with love from Dad</p>
-                </div>
-                
-                <div class="welcome-actions">
-                    <button class="primary-btn glow-btn" id="beginBtn">
-                        <span class="btn-icon">▶</span>
-                        <span class="btn-text">Begin Tonight's Story</span>
-                    </button>
-                    
-                    <div class="secondary-actions">
-                        <button class="secondary-btn" id="browseBtn">
-                            <span class="btn-icon">📚</span>
-                            <span class="btn-text">Browse All Stories</span>
-                        </button>
-                        <button class="secondary-btn" id="favoritesBtn">
-                            <span class="btn-icon">💝</span>
-                            <span class="btn-text">Favorites</span>
-                        </button>
-                    </div>
+                <div class="welcome__secondary">
+                    <button class="btn btn--ghost" id="btnBrowse">📚 Browse Stories</button>
+                    <button class="btn btn--ghost" id="btnFavs">💝 Favorites</button>
                 </div>
 
-                <div class="stats-preview" id="statsPreview">
-                    <div class="stat-item">
-                        <span class="stat-number" id="totalStories">0</span>
-                        <span class="stat-label">Stories</span>
+                <div class="stats" id="stats">
+                    <div class="stats__item">
+                        <span class="stats__num" id="statTotal">0</span>
+                        <span class="stats__label">Stories</span>
                     </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="storiesRead">0</span>
-                        <span class="stat-label">Read</span>
+                    <div class="stats__div"></div>
+                    <div class="stats__item">
+                        <span class="stats__num" id="statRead">0</span>
+                        <span class="stats__label">Read</span>
                     </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat-item">
-                        <span class="stat-number" id="favoriteCount">0</span>
-                        <span class="stat-label">Favorites</span>
+                    <div class="stats__div"></div>
+                    <div class="stats__item">
+                        <span class="stats__num" id="statFavs">0</span>
+                        <span class="stats__label">Favorites</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Story Reveal Screen -->
-        <section class="screen reveal-screen" id="revealScreen">
-            <div class="reveal-content">
-                <div class="reveal-animation">
-                    <div class="reveal-glow"></div>
-                    <div class="reveal-icon" id="revealIcon">🌟</div>
-                </div>
-                <h2 class="reveal-label">Tonight's Story is About...</h2>
-                <h3 class="reveal-pillar" id="revealPillar">Love</h3>
-                <p class="reveal-title" id="revealTitle">The Moon and the Sun</p>
-                
-                <div class="reveal-actions">
-                    <button class="primary-btn" id="readStoryBtn">
-                        <span class="btn-icon">📖</span>
-                        <span class="btn-text">Read This Story</span>
-                    </button>
-                    <button class="ghost-btn" id="pickAnotherBtn">
-                        <span class="btn-icon">🔄</span>
-                        <span class="btn-text">Pick a Different Story</span>
-                    </button>
+        <!-- REVEAL -->
+        <section class="screen screen--reveal" id="scrReveal">
+            <div class="reveal">
+                <div class="reveal__glow" aria-hidden="true"></div>
+                <div class="reveal__icon" id="revealIcon">🌟</div>
+                <p class="reveal__label">Tonight's Story is About…</p>
+                <h2 class="reveal__pillar" id="revealPillar">Love</h2>
+                <h3 class="reveal__title" id="revealTitle">The Moon and the Sun</h3>
+
+                <div class="reveal__actions">
+                    <button class="btn btn--primary" id="btnReadStory">📖 Read This Story</button>
+                    <button class="btn btn--ghost" id="btnPickAnother">🔄 Pick a Different Story</button>
                 </div>
             </div>
         </section>
 
-        <!-- Story Reading Screen -->
-        <section class="screen story-screen" id="storyScreen">
-            <div class="story-header">
-                <button class="back-btn" id="backToHomeBtn">
-                    <span>←</span>
-                    <span>Home</span>
-                </button>
-                <div class="story-meta">
-                    <span class="story-pillar-badge" id="storyPillarBadge">
-                        <span class="badge-icon">💝</span>
-                        <span class="badge-text">Love</span>
+        <!-- READING -->
+        <section class="screen screen--read" id="scrRead">
+            <div class="reader">
+                <div class="reader__top">
+                    <button class="btn btn--back" id="btnBackRead">← Home</button>
+                    <span class="reader__badge" id="readBadge">
+                        <span id="readBadgeIcon">💝</span>
+                        <span id="readBadgeText">Love</span>
                     </span>
                 </div>
-            </div>
-            
-            <article class="story-article">
-                <header class="story-title-section">
-                    <div class="story-icon-large" id="storyIconLarge">🌟</div>
-                    <h1 class="story-title" id="storyTitle">The Moon and the Sun</h1>
-                </header>
-                
-                <div class="story-body" id="storyBody">
-                    <!-- Story content inserted here -->
-                </div>
-            </article>
-            
-            <footer class="story-footer">
-                <div class="story-actions">
-                    <button class="action-btn favorite-action" id="favoriteBtn">
-                        <span class="action-icon" id="favoriteIcon">♡</span>
-                        <span class="action-text" id="favoriteText">Add to Favorites</span>
-                    </button>
-                    <button class="action-btn" id="nextStoryBtn">
-                        <span class="action-icon">→</span>
-                        <span class="action-text">Next Story</span>
-                    </button>
-                </div>
-                <div class="reading-complete" id="readingComplete">
-                    <span class="complete-icon">✓</span>
-                    <span class="complete-text">Story shared with Avi</span>
-                </div>
-            </footer>
-        </section>
 
-        <!-- Browse Stories Screen -->
-        <section class="screen browse-screen" id="browseScreen">
-            <div class="browse-header">
-                <button class="back-btn" id="backFromBrowseBtn">
-                    <span>←</span>
-                    <span>Home</span>
-                </button>
-                <h2 class="browse-title">Story Library</h2>
-            </div>
-            
-            <div class="browse-controls">
-                <div class="search-wrapper">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" placeholder="Search stories..." class="search-input">
-                </div>
-            </div>
-            
-            <div class="filter-tabs" id="filterTabs">
-                <button class="filter-tab active" data-filter="all">
-                    <span class="tab-icon">✨</span>
-                    <span class="tab-text">All</span>
-                    <span class="tab-count" id="allCount">0</span>
-                </button>
-                <button class="filter-tab" data-filter="unread">
-                    <span class="tab-icon">📖</span>
-                    <span class="tab-text">Unread</span>
-                    <span class="tab-count" id="unreadCount">0</span>
-                </button>
-                <button class="filter-tab" data-filter="favorites">
-                    <span class="tab-icon">💝</span>
-                    <span class="tab-text">Favorites</span>
-                    <span class="tab-count" id="favTabCount">0</span>
-                </button>
-            </div>
+                <article class="reader__body">
+                    <div class="reader__hero" id="readIcon">🌟</div>
+                    <h1 class="reader__title" id="readTitle">The Moon and the Sun</h1>
+                    <div class="reader__text" id="readText"></div>
+                </article>
 
-            <div class="pillar-filters" id="pillarFilters">
-                <!-- Pillar filter buttons inserted dynamically -->
-            </div>
-            
-            <div class="stories-grid" id="storiesGrid">
-                <!-- Story cards inserted dynamically -->
-            </div>
-            
-            <div class="empty-state hidden" id="emptyBrowse">
-                <div class="empty-icon">🔍</div>
-                <p class="empty-text">No stories found</p>
-                <p class="empty-subtext">Try a different search or filter</p>
+                <footer class="reader__footer">
+                    <div class="reader__actions">
+                        <button class="btn btn--action" id="btnFav">
+                            <span id="favIcon">♡</span>
+                            <span id="favLabel">Favorite</span>
+                        </button>
+                        <button class="btn btn--action" id="btnNext">→ Next Story</button>
+                    </div>
+                    <p class="reader__done" id="readDone">✓ Story shared with Avi</p>
+                </footer>
             </div>
         </section>
 
-        <!-- Favorites Screen -->
-        <section class="screen favorites-screen" id="favoritesScreen">
-            <div class="favorites-header">
-                <button class="back-btn" id="backFromFavoritesBtn">
-                    <span>←</span>
-                    <span>Home</span>
-                </button>
-                <h2 class="favorites-title">
-                    <span class="fav-icon">💝</span>
-                    Avi's Favorite Stories
-                </h2>
-            </div>
-            
-            <div class="favorites-grid" id="favoritesGrid">
-                <!-- Favorite cards inserted dynamically -->
-            </div>
-            
-            <div class="empty-state" id="emptyFavorites">
-                <div class="empty-icon">💫</div>
-                <p class="empty-text">No favorites yet!</p>
-                <p class="empty-subtext">Stories you love will appear here</p>
-                <button class="secondary-btn" id="browseFromEmptyBtn">
-                    <span class="btn-icon">📚</span>
-                    <span class="btn-text">Browse Stories</span>
-                </button>
+        <!-- BROWSE -->
+        <section class="screen screen--browse" id="scrBrowse">
+            <div class="browse">
+                <div class="browse__top">
+                    <button class="btn btn--back" id="btnBackBrowse">← Home</button>
+                    <h2 class="browse__heading">Story Library</h2>
+                </div>
+
+                <div class="browse__search">
+                    <input type="search" id="searchInput" class="browse__input" placeholder="Search stories…">
+                </div>
+
+                <div class="browse__tabs" id="filterTabs">
+                    <button class="tab is-active" data-filter="all">All <span id="cntAll">0</span></button>
+                    <button class="tab" data-filter="unread">Unread <span id="cntUnread">0</span></button>
+                    <button class="tab" data-filter="favorites">Favorites <span id="cntFav">0</span></button>
+                </div>
+
+                <div class="browse__pillars" id="pillarTabs"></div>
+
+                <div class="browse__grid" id="storiesGrid"></div>
+
+                <div class="browse__empty is-hidden" id="browseEmpty">
+                    <p>🔍 No stories match your search.</p>
+                </div>
             </div>
         </section>
 
-    </div>
+        <!-- FAVORITES -->
+        <section class="screen screen--favs" id="scrFavorites">
+            <div class="favs">
+                <div class="favs__top">
+                    <button class="btn btn--back" id="btnBackFavs">← Home</button>
+                    <h2 class="favs__heading">💝 Avi's Favorites</h2>
+                </div>
 
-    <!-- Dedication Modal -->
-    <div class="modal" id="dedicationModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="modal-icon">💌</span>
-                <h3>Tonight's Dedication</h3>
-            </div>
-            <textarea id="dedicationText" class="dedication-input" placeholder="Tonight's story is dedicated to..."></textarea>
-            <div class="modal-actions">
-                <button class="ghost-btn" id="skipDedicationBtn">Skip</button>
-                <button class="primary-btn" id="saveDedicationBtn">Save & Continue</button>
-            </div>
-        </div>
-    </div>
+                <div class="favs__grid" id="favsGrid"></div>
 
-    <!-- Audio Element -->
-    <audio id="backgroundMusic" loop preload="auto">
+                <div class="favs__empty" id="favsEmpty">
+                    <p>💫 No favorites yet!</p>
+                    <p class="favs__hint">Stories you love will appear here.</p>
+                    <button class="btn btn--ghost" id="btnBrowseFromEmpty">📚 Browse Stories</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══ Audio ═══ -->
+    <audio id="bgMusic" loop preload="auto">
         <source src="music/cosas-magicas.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Scripts -->
+    <!-- ═══ Scripts ═══ -->
     <script src="stories.js"></script>
     <script src="app.js"></script>
 </body>
