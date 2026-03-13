@@ -1,549 +1,377 @@
-/* ===================================
-   AVI'S BEDTIME STORIES - ULTIMATE EDITION
-   Main Application Logic
-   =================================== */
+/* ═══════════════════════════════════════════════════════════════
+   AVI'S BEDTIME STORIES — App Logic
+   Clean state machine, event delegation, localStorage persistence
+   ═══════════════════════════════════════════════════════════════ */
 
-// ===================================
-// STATE MANAGEMENT
-// ===================================
+;(function () {
+  'use strict';
 
-const AppState = {
-    currentStory: null,
-    completedStories: JSON.parse(localStorage.getItem('aviCompletedStories')) || [],
-    favorites: JSON.parse(localStorage.getItem('aviFavorites')) || [],
-    dedications: JSON.parse(localStorage.getItem('aviDedications')) || {},
-    isPlaying: false,
-    currentFilter: 'all',
-    currentPillarFilter: null,
-    searchQuery: ''
-};
+  // ── State ──────────────────────────────────────────────────
 
-// ===================================
-// DOM ELEMENTS
-// ===================================
+  const state = {
+    currentStory:   null,
+    completed:      JSON.parse(localStorage.getItem('avi_completed') || '[]'),
+    favorites:      JSON.parse(localStorage.getItem('avi_favorites') || '[]'),
+    filter:         'all',       // all | unread | favorites
+    pillarFilter:   null,        // null = all pillars
+    searchQuery:    '',
+    musicPlaying:   false,
+  };
 
-const DOM = {
-    // Screens
-    welcomeScreen: document.getElementById('welcomeScreen'),
-    revealScreen: document.getElementById('revealScreen'),
-    storyScreen: document.getElementById('storyScreen'),
-    browseScreen: document.getElementById('browseScreen'),
-    favoritesScreen: document.getElementById('favoritesScreen'),
-    
+  function save() {
+    localStorage.setItem('avi_completed', JSON.stringify(state.completed));
+    localStorage.setItem('avi_favorites', JSON.stringify(state.favorites));
+  }
+
+  // ── DOM refs (cached once) ────────────────────────────────
+
+  const $ = (sel, ctx = document) => ctx.querySelector(sel);
+  const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+
+  const el = {
+    screens:       $('#screens'),
+    // topbar
+    navHome:       $('#navHome'),
+    musicToggle:   $('#musicToggle'),
+    musicIcon:     $('#musicIcon'),
+    volSlider:     $('#volumeSlider'),
+    bgMusic:       $('#bgMusic'),
+    // welcome
+    statTotal:     $('#statTotal'),
+    statRead:      $('#statRead'),
+    statFavs:      $('#statFavs'),
+    // reveal
+    revealIcon:    $('#revealIcon'),
+    revealPillar:  $('#revealPillar'),
+    revealTitle:   $('#revealTitle'),
+    // reader
+    readBadgeIcon: $('#readBadgeIcon'),
+    readBadgeText: $('#readBadgeText'),
+    readIcon:      $('#readIcon'),
+    readTitle:     $('#readTitle'),
+    readText:      $('#readText'),
+    readDone:      $('#readDone'),
+    favIcon:       $('#favIcon'),
+    favLabel:      $('#favLabel'),
+    // browse
+    searchInput:   $('#searchInput'),
+    filterTabs:    $('#filterTabs'),
+    pillarTabs:    $('#pillarTabs'),
+    storiesGrid:   $('#storiesGrid'),
+    browseEmpty:   $('#browseEmpty'),
+    cntAll:        $('#cntAll'),
+    cntUnread:     $('#cntUnread'),
+    cntFav:        $('#cntFav'),
+    // favorites
+    favsGrid:      $('#favsGrid'),
+    favsEmpty:     $('#favsEmpty'),
+  };
+
+  // ── Screen navigation ─────────────────────────────────────
+
+  function showScreen(id) {
+    $$('.screen').forEach(s => s.classList.remove('is-active'));
+    const target = $(`#${id}`);
+    if (target) {
+      target.classList.add('is-active');
+      // re-trigger the fadeUp animation
+      target.style.animation = 'none';
+      target.offsetHeight; // reflow
+      target.style.animation = '';
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  // ── Music ─────────────────────────────────────────────────
+
+  function initMusic() {
+    el.bgMusic.volume = el.volSlider.value / 100;
+    updateMusicUI();
+  }
+
+  function toggleMusic() {
+    if (state.musicPlaying) {
+      el.bgMusic.pause();
+      state.musicPlaying = false;
+    } else {
+      el.bgMusic.play().then(() => { state.musicPlaying = true; updateMusicUI(); })
+        .catch(() => { /* browser blocked autoplay, that's fine */ });
+      state.musicPlaying = true;
+    }
+    updateMusicUI();
+  }
+
+  function updateMusicUI() {
+    el.musicIcon.textContent = state.musicPlaying ? '🔊' : '🔇';
+  }
+
+  // ── Stats ─────────────────────────────────────────────────
+
+  function refreshStats() {
+    el.statTotal.textContent = stories.length;
+    el.statRead.textContent  = state.completed.length;
+    el.statFavs.textContent  = state.favorites.length;
+  }
+
+  // ── Story selection ───────────────────────────────────────
+
+  function pickRandom() {
+    const unread = stories.filter(s => !state.completed.includes(s.id));
+    const pool   = unread.length > 0 ? unread : stories;
+    state.currentStory = pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  // ── Reveal screen ─────────────────────────────────────────
+
+  function showReveal() {
+    const s = state.currentStory;
+    el.revealIcon.textContent   = s.icon;
+    el.revealPillar.textContent = s.pillar;
+    el.revealTitle.textContent  = s.title;
+    showScreen('scrReveal');
+    // auto-start music on first "Begin"
+    if (!state.musicPlaying) {
+      el.bgMusic.play().then(() => { state.musicPlaying = true; updateMusicUI(); }).catch(() => {});
+    }
+  }
+
+  // ── Reader screen ─────────────────────────────────────────
+
+  function openStory(story) {
+    if (!story) return;
+    state.currentStory = story;
+
+    el.readBadgeIcon.textContent = story.icon;
+    el.readBadgeText.textContent = story.pillar;
+    el.readIcon.textContent      = story.icon;
+    el.readTitle.textContent     = story.title;
+    el.readText.innerHTML        = story.text;
+
+    // mark read
+    if (!state.completed.includes(story.id)) {
+      state.completed.push(story.id);
+      save();
+    }
+
+    // favorite button state
+    updateFavButton();
+
+    // show "shared" indicator after a beat
+    el.readDone.classList.remove('is-visible');
+    setTimeout(() => el.readDone.classList.add('is-visible'), 1500);
+
+    showScreen('scrRead');
+    refreshStats();
+  }
+
+  function updateFavButton() {
+    const isFav = state.favorites.includes(state.currentStory?.id);
+    el.favIcon.textContent  = isFav ? '♥' : '♡';
+    el.favLabel.textContent = isFav ? 'Favorited' : 'Favorite';
+    $('#btnFav').classList.toggle('is-fav', isFav);
+  }
+
+  function toggleFavorite() {
+    if (!state.currentStory) return;
+    const id = state.currentStory.id;
+    const idx = state.favorites.indexOf(id);
+    if (idx === -1) { state.favorites.push(id); }
+    else            { state.favorites.splice(idx, 1); }
+    save();
+    updateFavButton();
+    refreshStats();
+  }
+
+  // ── Browse screen ─────────────────────────────────────────
+
+  function openBrowse() {
+    buildPillarChips();
+    refreshBrowseCounts();
+    renderBrowseGrid();
+    showScreen('scrBrowse');
+  }
+
+  function buildPillarChips() {
+    const pillars = [...new Set(stories.map(s => s.pillar))].sort();
+    el.pillarTabs.innerHTML =
+      `<button class="chip${state.pillarFilter === null ? ' is-active' : ''}" data-pillar="all">All</button>` +
+      pillars.map(p => {
+        const icon = stories.find(s => s.pillar === p).icon;
+        return `<button class="chip${state.pillarFilter === p ? ' is-active' : ''}" data-pillar="${p}">${icon} ${p}</button>`;
+      }).join('');
+  }
+
+  function refreshBrowseCounts() {
+    el.cntAll.textContent    = stories.length;
+    el.cntUnread.textContent = stories.filter(s => !state.completed.includes(s.id)).length;
+    el.cntFav.textContent    = state.favorites.length;
+  }
+
+  function getFilteredStories() {
+    let list = [...stories];
+
+    // main filter
+    if (state.filter === 'unread')    list = list.filter(s => !state.completed.includes(s.id));
+    if (state.filter === 'favorites') list = list.filter(s => state.favorites.includes(s.id));
+
+    // pillar
+    if (state.pillarFilter) list = list.filter(s => s.pillar === state.pillarFilter);
+
+    // search
+    if (state.searchQuery) {
+      const q = state.searchQuery.toLowerCase();
+      list = list.filter(s =>
+        s.title.toLowerCase().includes(q) ||
+        s.pillar.toLowerCase().includes(q)
+      );
+    }
+
+    return list;
+  }
+
+  function renderBrowseGrid() {
+    const filtered = getFilteredStories();
+
+    if (filtered.length === 0) {
+      el.storiesGrid.innerHTML = '';
+      el.browseEmpty.classList.remove('is-hidden');
+      return;
+    }
+    el.browseEmpty.classList.add('is-hidden');
+
+    el.storiesGrid.innerHTML = filtered.map(s => {
+      const isRead = state.completed.includes(s.id);
+      const isFav  = state.favorites.includes(s.id);
+      return `
+        <div class="card" data-sid="${s.id}">
+          <div class="card__icon">${s.icon}</div>
+          <div class="card__title">${s.title}</div>
+          <div class="card__pillar">${s.pillar}</div>
+          <div class="card__badges">
+            ${isFav  ? '<span class="card__badge card__badge--fav">♥ Favorite</span>' : ''}
+            ${isRead && !isFav ? '<span class="card__badge card__badge--read">✓ Read</span>' : ''}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Favorites screen ──────────────────────────────────────
+
+  function openFavorites() {
+    const favStories = stories.filter(s => state.favorites.includes(s.id));
+
+    if (favStories.length === 0) {
+      el.favsGrid.innerHTML = '';
+      el.favsEmpty.classList.remove('is-hidden');
+    } else {
+      el.favsEmpty.classList.add('is-hidden');
+      el.favsGrid.innerHTML = favStories.map(s => `
+        <div class="card" data-sid="${s.id}">
+          <div class="card__icon">${s.icon}</div>
+          <div class="card__title">${s.title}</div>
+          <div class="card__pillar">${s.pillar}</div>
+        </div>`).join('');
+    }
+
+    showScreen('scrFavorites');
+  }
+
+  // ── Event wiring ──────────────────────────────────────────
+
+  function bind() {
     // Navigation
-    navbar: document.getElementById('navbar'),
-    navBrand: document.getElementById('navBrand'),
-    musicToggle: document.getElementById('musicToggle'),
-    musicIcon: document.getElementById('musicIcon'),
-    musicStatus: document.getElementById('musicStatus'),
-    volumeWrapper: document.getElementById('volumeWrapper'),
-    volumeSlider: document.getElementById('volumeSlider'),
-    volumeLabel: document.getElementById('volumeLabel'),
-    
-    // Welcome Screen
-    beginBtn: document.getElementById('beginBtn'),
-    browseBtn: document.getElementById('browseBtn'),
-    favoritesBtn: document.getElementById('favoritesBtn'),
-    totalStories: document.getElementById('totalStories'),
-    storiesRead: document.getElementById('storiesRead'),
-    favoriteCount: document.getElementById('favoriteCount'),
-    
-    // Reveal Screen
-    revealIcon: document.getElementById('revealIcon'),
-    revealPillar: document.getElementById('revealPillar'),
-    revealTitle: document.getElementById('revealTitle'),
-    readStoryBtn: document.getElementById('readStoryBtn'),
-    pickAnotherBtn: document.getElementById('pickAnotherBtn'),
-    
-    // Story Screen
-    backToHomeBtn: document.getElementById('backToHomeBtn'),
-    storyPillarBadge: document.getElementById('storyPillarBadge'),
-    storyIconLarge: document.getElementById('storyIconLarge'),
-    storyTitle: document.getElementById('storyTitle'),
-    storyBody: document.getElementById('storyBody'),
-    favoriteBtn: document.getElementById('favoriteBtn'),
-    favoriteIcon: document.getElementById('favoriteIcon'),
-    favoriteText: document.getElementById('favoriteText'),
-    nextStoryBtn: document.getElementById('nextStoryBtn'),
-    readingComplete: document.getElementById('readingComplete'),
-    
-    // Browse Screen
-    backFromBrowseBtn: document.getElementById('backFromBrowseBtn'),
-    searchInput: document.getElementById('searchInput'),
-    filterTabs: document.getElementById('filterTabs'),
-    pillarFilters: document.getElementById('pillarFilters'),
-    storiesGrid: document.getElementById('storiesGrid'),
-    allCount: document.getElementById('allCount'),
-    unreadCount: document.getElementById('unreadCount'),
-    favTabCount: document.getElementById('favTabCount'),
-    emptyBrowse: document.getElementById('emptyBrowse'),
-    
-    // Favorites Screen
-    backFromFavoritesBtn: document.getElementById('backFromFavoritesBtn'),
-    favoritesGrid: document.getElementById('favoritesGrid'),
-    emptyFavorites: document.getElementById('emptyFavorites'),
-    browseFromEmptyBtn: document.getElementById('browseFromEmptyBtn'),
-    
-    // Modal
-    dedicationModal: document.getElementById('dedicationModal'),
-    dedicationText: document.getElementById('dedicationText'),
-    skipDedicationBtn: document.getElementById('skipDedicationBtn'),
-    saveDedicationBtn: document.getElementById('saveDedicationBtn'),
-    
-    // Audio
-    backgroundMusic: document.getElementById('backgroundMusic')
-};
+    el.navHome.addEventListener('click', () => { showScreen('scrWelcome'); refreshStats(); });
 
-// ===================================
-// INITIALIZATION
-// ===================================
+    // Welcome
+    $('#btnBegin').addEventListener('click',  () => { pickRandom(); showReveal(); });
+    $('#btnBrowse').addEventListener('click', openBrowse);
+    $('#btnFavs').addEventListener('click',   openFavorites);
 
-document.addEventListener('DOMContentLoaded', () => {
-    initializeApp();
-    setupEventListeners();
-    updateStats();
-    DOM.backgroundMusic.volume = 0.25;
-});
+    // Reveal
+    $('#btnReadStory').addEventListener('click',  () => openStory(state.currentStory));
+    $('#btnPickAnother').addEventListener('click', () => { pickRandom(); showReveal(); });
 
-function initializeApp() {
-    console.log(`🌙 Avi's Bedtime Stories loaded with ${stories.length} stories`);
-}
+    // Reader
+    $('#btnBackRead').addEventListener('click', () => { showScreen('scrWelcome'); refreshStats(); });
+    $('#btnFav').addEventListener('click', toggleFavorite);
+    $('#btnNext').addEventListener('click', () => { pickRandom(); openStory(state.currentStory); });
 
-function setupEventListeners() {
-    // Navigation
-    DOM.navBrand.addEventListener('click', () => showScreen('welcome'));
-    DOM.musicToggle.addEventListener('click', toggleMusic);
-    DOM.volumeSlider.addEventListener('input', updateVolume);
-    
-    // Welcome Screen
-    DOM.beginBtn.addEventListener('click', beginStoryExperience);
-    DOM.browseBtn.addEventListener('click', () => showScreen('browse'));
-    DOM.favoritesBtn.addEventListener('click', () => showScreen('favorites'));
-    
-    // Reveal Screen
-    DOM.readStoryBtn.addEventListener('click', showCurrentStory);
-    DOM.pickAnotherBtn.addEventListener('click', pickRandomStory);
-    
-    // Story Screen
-    DOM.backToHomeBtn.addEventListener('click', () => showScreen('welcome'));
-    DOM.favoriteBtn.addEventListener('click', toggleFavorite);
-    DOM.nextStoryBtn.addEventListener('click', pickAndShowRandomStory);
-    
-    // Browse Screen
-    DOM.backFromBrowseBtn.addEventListener('click', () => showScreen('welcome'));
-    DOM.searchInput.addEventListener('input', handleSearch);
-    DOM.filterTabs.addEventListener('click', handleFilterTab);
-    
-    // Favorites Screen
-    DOM.backFromFavoritesBtn.addEventListener('click', () => showScreen('welcome'));
-    if (DOM.browseFromEmptyBtn) {
-        DOM.browseFromEmptyBtn.addEventListener('click', () => showScreen('browse'));
-    }
-    
-    // Modal
-    DOM.skipDedicationBtn.addEventListener('click', closeDedicationModal);
-    DOM.saveDedicationBtn.addEventListener('click', saveDedication);
-    
-    // Keyboard shortcuts
-    document.addEventListener('keydown', handleKeyboard);
-}
+    // Browse
+    $('#btnBackBrowse').addEventListener('click', () => { showScreen('scrWelcome'); refreshStats(); });
 
-// ===================================
-// SCREEN NAVIGATION
-// ===================================
-
-function showScreen(screenName) {
-    // Hide all screens
-    const screens = document.querySelectorAll('.screen');
-    screens.forEach(screen => screen.classList.remove('active'));
-    
-    // Show target screen
-    const targetScreen = document.getElementById(`${screenName}Screen`);
-    if (targetScreen) {
-        targetScreen.classList.add('active');
-    }
-    
-    // Screen-specific setup
-    switch(screenName) {
-        case 'welcome':
-            updateStats();
-            break;
-        case 'browse':
-            renderBrowseScreen();
-            break;
-        case 'favorites':
-            renderFavoritesScreen();
-            break;
-    }
-    
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ===================================
-// MUSIC CONTROLS
-// ===================================
-
-function toggleMusic() {
-    if (AppState.isPlaying) {
-        DOM.backgroundMusic.pause();
-        AppState.isPlaying = false;
-        DOM.musicIcon.textContent = '🎵';
-        DOM.musicStatus.textContent = 'Off';
-        DOM.musicToggle.classList.remove('playing');
-        DOM.volumeWrapper.classList.remove('visible');
-    } else {
-        DOM.backgroundMusic.play().catch(err => {
-            console.log('Music autoplay prevented:', err);
-        });
-        AppState.isPlaying = true;
-        DOM.musicIcon.textContent = '🎶';
-        DOM.musicStatus.textContent = 'On';
-        DOM.musicToggle.classList.add('playing');
-        DOM.volumeWrapper.classList.add('visible');
-    }
-}
-
-function updateVolume() {
-    const volume = DOM.volumeSlider.value / 100;
-    DOM.backgroundMusic.volume = volume;
-    DOM.volumeLabel.textContent = `${DOM.volumeSlider.value}%`;
-}
-
-// ===================================
-// STORY SELECTION
-// ===================================
-
-function beginStoryExperience() {
-    // Start music if not playing
-    if (!AppState.isPlaying) {
-        toggleMusic();
-    }
-    
-    // Pick a random story
-    pickRandomStory();
-    
-    // Show reveal screen
-    showScreen('reveal');
-}
-
-function pickRandomStory() {
-    // Prioritize unread stories
-    const unreadStories = stories.filter(s => !AppState.completedStories.includes(s.id));
-    const availableStories = unreadStories.length > 0 ? unreadStories : stories;
-    
-    // Random selection
-    const randomIndex = Math.floor(Math.random() * availableStories.length);
-    AppState.currentStory = availableStories[randomIndex];
-    
-    // Update reveal screen
-    updateRevealScreen();
-}
-
-function updateRevealScreen() {
-    const story = AppState.currentStory;
-    DOM.revealIcon.textContent = story.icon;
-    DOM.revealPillar.textContent = story.pillar;
-    DOM.revealTitle.textContent = story.title;
-}
-
-function pickAndShowRandomStory() {
-    pickRandomStory();
-    showCurrentStory();
-}
-
-// ===================================
-// STORY DISPLAY
-// ===================================
-
-function showCurrentStory() {
-    const story = AppState.currentStory;
-    
-    // Update story screen elements
-    DOM.storyIconLarge.textContent = story.icon;
-    DOM.storyTitle.textContent = story.title;
-    DOM.storyBody.innerHTML = story.text;
-    DOM.storyPillarBadge.innerHTML = `
-        <span class="badge-icon">${story.icon}</span>
-        <span class="badge-text">${story.pillar}</span>
-    `;
-    
-    // Update favorite button
-    updateFavoriteButton();
-    
-    // Mark as completed
-    markStoryComplete(story.id);
-    
-    // Show screen
-    showScreen('story');
-}
-
-function showStoryById(storyId) {
-    const story = stories.find(s => s.id === storyId);
-    if (story) {
-        AppState.currentStory = story;
-        showCurrentStory();
-    }
-}
-
-function markStoryComplete(storyId) {
-    if (!AppState.completedStories.includes(storyId)) {
-        AppState.completedStories.push(storyId);
-        localStorage.setItem('aviCompletedStories', JSON.stringify(AppState.completedStories));
-    }
-}
-
-// ===================================
-// FAVORITES
-// ===================================
-
-function toggleFavorite() {
-    const storyId = AppState.currentStory.id;
-    
-    if (AppState.favorites.includes(storyId)) {
-        AppState.favorites = AppState.favorites.filter(id => id !== storyId);
-    } else {
-        AppState.favorites.push(storyId);
-    }
-    
-    localStorage.setItem('aviFavorites', JSON.stringify(AppState.favorites));
-    updateFavoriteButton();
-    updateStats();
-}
-
-function updateFavoriteButton() {
-    const isFavorited = AppState.favorites.includes(AppState.currentStory.id);
-    
-    if (isFavorited) {
-        DOM.favoriteIcon.textContent = '♥';
-        DOM.favoriteText.textContent = 'Favorited';
-        DOM.favoriteBtn.classList.add('favorited');
-    } else {
-        DOM.favoriteIcon.textContent = '♡';
-        DOM.favoriteText.textContent = 'Add to Favorites';
-        DOM.favoriteBtn.classList.remove('favorited');
-    }
-}
-
-// ===================================
-// BROWSE SCREEN
-// ===================================
-
-function renderBrowseScreen() {
-    renderPillarFilters();
-    renderStoriesGrid();
-    updateFilterCounts();
-}
-
-function renderPillarFilters() {
-    // Get unique pillars
-    const pillars = [...new Set(stories.map(s => s.pillar))];
-    
-    DOM.pillarFilters.innerHTML = `
-        <button class="pillar-filter-btn ${AppState.currentPillarFilter === null ? 'active' : ''}" 
-                data-pillar="all">
-            ✨ All Themes
-        </button>
-        ${pillars.map(pillar => {
-            const story = stories.find(s => s.pillar === pillar);
-            return `
-                <button class="pillar-filter-btn ${AppState.currentPillarFilter === pillar ? 'active' : ''}" 
-                        data-pillar="${pillar}">
-                    ${story.icon} ${pillar}
-                </button>
-            `;
-        }).join('')}
-    `;
-    
-    // Add click handlers
-    DOM.pillarFilters.querySelectorAll('.pillar-filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const pillar = btn.dataset.pillar;
-            AppState.currentPillarFilter = pillar === 'all' ? null : pillar;
-            
-            // Update active state
-            DOM.pillarFilters.querySelectorAll('.pillar-filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            renderStoriesGrid();
-        });
+    // Browse: filter tabs (event delegation)
+    el.filterTabs.addEventListener('click', e => {
+      const tab = e.target.closest('.tab');
+      if (!tab) return;
+      $$('.tab', el.filterTabs).forEach(t => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      state.filter = tab.dataset.filter;
+      renderBrowseGrid();
     });
-}
 
-function renderStoriesGrid() {
-    let filteredStories = [...stories];
-    
-    // Apply main filter
-    if (AppState.currentFilter === 'unread') {
-        filteredStories = filteredStories.filter(s => !AppState.completedStories.includes(s.id));
-    } else if (AppState.currentFilter === 'favorites') {
-        filteredStories = filteredStories.filter(s => AppState.favorites.includes(s.id));
-    }
-    
-    // Apply pillar filter
-    if (AppState.currentPillarFilter) {
-        filteredStories = filteredStories.filter(s => s.pillar === AppState.currentPillarFilter);
-    }
-    
-    // Apply search
-    if (AppState.searchQuery) {
-        const query = AppState.searchQuery.toLowerCase();
-        filteredStories = filteredStories.filter(s => 
-            s.title.toLowerCase().includes(query) ||
-            s.pillar.toLowerCase().includes(query)
-        );
-    }
-    
-    // Render cards
-    if (filteredStories.length === 0) {
-        DOM.storiesGrid.innerHTML = '';
-        DOM.emptyBrowse.classList.remove('hidden');
-    } else {
-        DOM.emptyBrowse.classList.add('hidden');
-        DOM.storiesGrid.innerHTML = filteredStories.map(story => {
-            const isRead = AppState.completedStories.includes(story.id);
-            const isFavorite = AppState.favorites.includes(story.id);
-            
-            return `
-                <div class="story-card" data-story-id="${story.id}">
-                    <div class="story-card-icon">${story.icon}</div>
-                    <h3 class="story-card-title">${story.title}</h3>
-                    <p class="story-card-pillar">${story.pillar}</p>
-                    <div class="story-card-badges">
-                        ${isFavorite ? '<span class="story-card-status status-favorite">♥ Favorite</span>' : ''}
-                        ${isRead && !isFavorite ? '<span class="story-card-status status-read">✓ Read</span>' : ''}
-                    </div>
-                </div>
-            `;
-        }).join('');
-        
-        // Add click handlers
-        DOM.storiesGrid.querySelectorAll('.story-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const storyId = parseInt(card.dataset.storyId);
-                showStoryById(storyId);
-            });
-        });
-    }
-}
+    // Browse: pillar chips (event delegation)
+    el.pillarTabs.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+      $$('.chip', el.pillarTabs).forEach(c => c.classList.remove('is-active'));
+      chip.classList.add('is-active');
+      const p = chip.dataset.pillar;
+      state.pillarFilter = p === 'all' ? null : p;
+      renderBrowseGrid();
+    });
 
-function handleFilterTab(e) {
-    const tab = e.target.closest('.filter-tab');
-    if (!tab) return;
-    
-    const filter = tab.dataset.filter;
-    AppState.currentFilter = filter;
-    
-    // Update active state
-    DOM.filterTabs.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    
-    renderStoriesGrid();
-}
+    // Browse: search
+    el.searchInput.addEventListener('input', e => {
+      state.searchQuery = e.target.value.trim();
+      renderBrowseGrid();
+    });
 
-function handleSearch(e) {
-    AppState.searchQuery = e.target.value;
-    renderStoriesGrid();
-}
+    // Browse: card clicks (event delegation on grid)
+    el.storiesGrid.addEventListener('click', e => {
+      const card = e.target.closest('.card');
+      if (!card) return;
+      const story = stories.find(s => s.id === Number(card.dataset.sid));
+      if (story) openStory(story);
+    });
 
-function updateFilterCounts() {
-    const unreadCount = stories.filter(s => !AppState.completedStories.includes(s.id)).length;
-    const favCount = AppState.favorites.length;
-    
-    DOM.allCount.textContent = stories.length;
-    DOM.unreadCount.textContent = unreadCount;
-    DOM.favTabCount.textContent = favCount;
-}
+    // Favorites: card clicks
+    el.favsGrid.addEventListener('click', e => {
+      const card = e.target.closest('.card');
+      if (!card) return;
+      const story = stories.find(s => s.id === Number(card.dataset.sid));
+      if (story) openStory(story);
+    });
 
-// ===================================
-// FAVORITES SCREEN
-// ===================================
+    // Favorites: empty → browse
+    $('#btnBrowseFromEmpty').addEventListener('click', openBrowse);
 
-function renderFavoritesScreen() {
-    const favoriteStories = stories.filter(s => AppState.favorites.includes(s.id));
-    
-    if (favoriteStories.length === 0) {
-        DOM.favoritesGrid.innerHTML = '';
-        DOM.emptyFavorites.style.display = 'block';
-    } else {
-        DOM.emptyFavorites.style.display = 'none';
-        DOM.favoritesGrid.innerHTML = favoriteStories.map(story => `
-            <div class="favorite-card" data-story-id="${story.id}">
-                <div class="story-card-icon">${story.icon}</div>
-                <h3 class="story-card-title">${story.title}</h3>
-                <p class="story-card-pillar">${story.pillar}</p>
-            </div>
-        `).join('');
-        
-        // Add click handlers
-        DOM.favoritesGrid.querySelectorAll('.favorite-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const storyId = parseInt(card.dataset.storyId);
-                showStoryById(storyId);
-            });
-        });
-    }
-}
+    // Music
+    el.musicToggle.addEventListener('click', toggleMusic);
+    el.volSlider.addEventListener('input', () => {
+      el.bgMusic.volume = el.volSlider.value / 100;
+    });
 
-// ===================================
-// DEDICATION MODAL
-// ===================================
+    // Keyboard shortcuts
+    document.addEventListener('keydown', e => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.code === 'Space')  { e.preventDefault(); toggleMusic(); }
+      if (e.code === 'Escape') { showScreen('scrWelcome'); refreshStats(); }
+    });
+  }
 
-function openDedicationModal() {
-    DOM.dedicationText.value = '';
-    DOM.dedicationModal.classList.add('active');
-}
+  // ── Init ──────────────────────────────────────────────────
 
-function closeDedicationModal() {
-    DOM.dedicationModal.classList.remove('active');
-    showCurrentStory();
-}
+  function init() {
+    initMusic();
+    refreshStats();
+    bind();
+  }
 
-function saveDedication() {
-    const dedication = DOM.dedicationText.value.trim();
-    if (dedication && AppState.currentStory) {
-        AppState.dedications[AppState.currentStory.id] = dedication;
-        localStorage.setItem('aviDedications', JSON.stringify(AppState.dedications));
-    }
-    closeDedicationModal();
-}
+  // Wait for DOM + stories
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
-// ===================================
-// STATS
-// ===================================
-
-function updateStats() {
-    DOM.totalStories.textContent = stories.length;
-    DOM.storiesRead.textContent = AppState.completedStories.length;
-    DOM.favoriteCount.textContent = AppState.favorites.length;
-}
-
-// ===================================
-// KEYBOARD SHORTCUTS
-// ===================================
-
-function handleKeyboard(e) {
-    // Space to toggle music (when not typing)
-    if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-        toggleMusic();
-    }
-    
-    // Escape to go back
-    if (e.code === 'Escape') {
-        showScreen('welcome');
-    }
-}
-
-// ===================================
-// UTILITY FUNCTIONS
-// ===================================
-
-function getRandomStory(excludeId = null) {
-    const available = stories.filter(s => s.id !== excludeId);
-    return available[Math.floor(Math.random() * available.length)];
-}
-
-// Make stories globally available for debugging
-window.AppState = AppState;
-window.stories = stories;
+})();
